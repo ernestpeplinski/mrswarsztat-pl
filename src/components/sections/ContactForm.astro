@@ -1,0 +1,172 @@
+---
+import { SITE } from '../../config/site';
+
+const phone = SITE.phones[0];
+
+const field =
+  'w-full rounded-lg border border-line bg-ink px-4 py-3 text-cream placeholder:text-muted focus:border-brand focus:outline-none';
+const label = 'mb-1.5 block text-sm font-semibold';
+---
+
+<!--
+  Formularz wyceny. Brak backendu (GitHub Pages) – wysyłka do Web3Forms przez fetch (skrypt na dole).
+  Ustawienia (endpoint, klucz) są w src/config/site.ts → SITE.form.
+-->
+<form
+  data-contact-form
+  data-endpoint={SITE.form.endpoint}
+  data-access-key={SITE.form.accessKey}
+  data-phone-href={phone.href}
+  data-phone={phone.display}
+  class="rounded-2xl border border-line bg-ink-2 p-6 sm:p-8"
+>
+  <!-- Ukryte pola dla Web3Forms -->
+  <input type="hidden" name="subject" value="Nowe zapytanie ze strony MRS Serwis Samochodowy" />
+  <input type="hidden" name="from_name" value="Formularz na stronie" />
+  <!-- Pułapka na boty (Web3Forms odrzuca zgłoszenie, gdy zaznaczone) -->
+  <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="cf-name" class={label}>Imię</label>
+      <input id="cf-name" name="Imię" type="text" required autocomplete="given-name" class={field} />
+    </div>
+    <div>
+      <label for="cf-phone" class={label}>Telefon</label>
+      <input id="cf-phone" name="Telefon" type="tel" required autocomplete="tel" inputmode="tel" class={field} />
+    </div>
+
+    <div>
+      <label for="cf-car" class={label}>Marka i model auta</label>
+      <input id="cf-car" name="Auto (marka i model)" type="text" required placeholder="np. Skoda Octavia" class={field} />
+    </div>
+    <div>
+      <label for="cf-year" class={label}>Rocznik</label>
+      <input
+        id="cf-year"
+        name="Rocznik"
+        type="text"
+        inputmode="numeric"
+        pattern="(19|20)[0-9]{2}"
+        maxlength="4"
+        placeholder="np. 2016"
+        class={field}
+      />
+    </div>
+
+    <div class="sm:col-span-2">
+      <label for="cf-service" class={label}>Rodzaj usługi</label>
+      <select id="cf-service" name="Rodzaj usługi" required class={field}>
+        <option value="" disabled selected>Wybierz usługę</option>
+        <option>Opony i wulkanizacja</option>
+        <option>Klimatyzacja</option>
+        <option>Mechanika / diagnostyka</option>
+        <option>Inne</option>
+      </select>
+    </div>
+
+    <div class="sm:col-span-2">
+      <label for="cf-message" class={label}>Opis problemu</label>
+      <textarea
+        id="cf-message"
+        name="Opis problemu"
+        rows="4"
+        required
+        placeholder="np. stukanie z przodu, świeci kontrolka, wymiana opon na zimowe"
+        class={field}></textarea>
+    </div>
+
+    <div class="sm:col-span-2">
+      <label for="cf-email" class={label}>E-mail <span class="font-normal text-muted">(opcjonalnie)</span></label>
+      <input id="cf-email" name="E-mail" type="email" autocomplete="email" class={field} />
+    </div>
+
+    <div class="sm:col-span-2">
+      <label class="flex items-start gap-3 text-sm text-cream/80">
+        <input
+          type="checkbox"
+          name="Zgoda na kontakt"
+          required
+          class="mt-1 h-4 w-4 shrink-0 accent-[#ea020a]"
+        />
+        <span>
+          Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na to zapytanie.
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-brand px-6 py-3.5 text-base font-bold text-white transition-colors hover:bg-brand-hover disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+  >
+    Wyślij zapytanie
+  </button>
+
+  <!-- Komunikaty (czytane przez czytniki ekranu) -->
+  <p data-form-status role="status" aria-live="polite" class="mt-4 hidden rounded-lg px-4 py-3 text-sm font-semibold">
+  </p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-form-status]')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+    const show = (message: string, ok: boolean) => {
+      status.textContent = message;
+      status.className =
+        'mt-4 rounded-lg px-4 py-3 text-sm font-semibold ' +
+        (ok ? 'bg-green-900/40 text-green-200' : 'bg-red-900/40 text-red-200');
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const { endpoint, accessKey, phone, phoneHref } = {
+        endpoint: form.dataset.endpoint ?? '',
+        accessKey: form.dataset.accessKey ?? '',
+        phone: form.dataset.phone ?? '',
+        phoneHref: form.dataset.phoneHref ?? '',
+      };
+
+      if (!accessKey || accessKey.startsWith('WSTAW_')) {
+        show('Formularz nie jest jeszcze skonfigurowany (brak klucza Web3Forms w config/site.ts).', false);
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Wysyłanie…';
+
+      try {
+        const data = Object.fromEntries(new FormData(form));
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ ...data, access_key: accessKey }),
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          form.reset();
+          show('Wiadomość wysłana, oddzwonimy. Dziękujemy!', true);
+          button.textContent = 'Wysłano';
+          return;
+        }
+        throw new Error(result.message || 'Błąd wysyłki');
+      } catch {
+        show('', false);
+        status.textContent = '';
+        const link = document.createElement('a');
+        link.href = phoneHref;
+        link.textContent = phone;
+        link.className = 'underline';
+        status.append('Nie udało się wysłać wiadomości. Zadzwoń: ', link, '.');
+        button.disabled = false;
+        button.textContent = 'Wyślij zapytanie';
+      }
+    });
+  }
+</script>

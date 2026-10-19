@@ -58,6 +58,16 @@ export const SITE = {
     writeReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJaQ9CagB3AkcRCsHmHyeqGwc',
   },
 
+  /**
+   * Formularz kontaktowy – Web3Forms (https://web3forms.com).
+   * accessKey wklej z maila od Web3Forms (klucz jest z założenia publiczny – możesz w panelu ograniczyć go do swojej domeny).
+   * Zmiana dostawcy (np. Formspree): podmień endpoint i dopasuj ContactForm.astro.
+   */
+  form: {
+    endpoint: 'https://api.web3forms.com/submit',
+    accessKey: 'WSTAW_KLUCZ_WEB3FORMS',
+  },
+
   social: {
     facebook: 'https://www.facebook.com/profile.php?id=61581669183592',
     instagram: 'https://www.instagram.com/mrsserwissamochodowy',

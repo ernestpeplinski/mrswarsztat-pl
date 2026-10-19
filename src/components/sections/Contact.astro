@@ -1,0 +1,52 @@
+---
+import Section from '../ui/Section.astro';
+import Icon from '../icons/Icon.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import ContactForm from './ContactForm.astro';
+import { SITE } from '../../config/site';
+---
+
+<Section
+  id="kontakt"
+  eyebrow="Kontakt"
+  title="Zadzwoń lub opisz problem – wycenimy naprawę"
+  intro="Podaj markę auta i opisz, co się dzieje, a oddzwonimy. Możesz też po prostu przyjechać do warsztatu w Kaliskach Kościerskich."
+>
+  <div class="grid gap-8 lg:grid-cols-[1fr_1.4fr]">
+    <div class="space-y-6">
+      <ul class="space-y-4 text-cream/90">
+        <li class="flex items-start gap-3">
+          <Icon name="map-pin" size={22} class="mt-0.5 shrink-0 text-brand" />
+          <span>
+            <strong class="block">{SITE.name}</strong>
+            {SITE.address.street}, {SITE.address.postalCode} {SITE.address.locality}
+          </span>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="clock" size={22} class="shrink-0 text-brand" />
+          {SITE.hours.label}
+        </li>
+        {
+          SITE.phones.map((phone) => (
+            <li>
+              <a href={phone.href} class="flex items-center gap-3 font-bold transition-colors hover:text-white">
+                <Icon name="phone" size={22} class="shrink-0 text-brand" />
+                {phone.display}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={`mailto:${SITE.email}`} class="flex items-center gap-3 transition-colors hover:text-white">
+            <Icon name="mail" size={22} class="shrink-0 text-brand" />
+            {SITE.email}
+          </a>
+        </li>
+      </ul>
+
+      <PrimaryButton href={SITE.directionsUrl} variant="secondary" icon="map-pin" external>Wyznacz trasę</PrimaryButton>
+    </div>
+
+    <ContactForm />
+  </div>
+</Section>
