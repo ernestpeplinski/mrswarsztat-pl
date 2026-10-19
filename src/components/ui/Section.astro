@@ -1,0 +1,37 @@
+---
+/**
+ * Wspólny wrapper sekcji strony głównej: kontener, odstępy, nagłówek H2 i opcjonalny opis.
+ * Użycie: <Section id="uslugi" eyebrow="Usługi" title="..." intro="...">…treść…</Section>
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+}
+
+const { id, eyebrow, title, intro } = Astro.props;
+const titleId = id ? `${id}-title` : undefined;
+---
+
+<section id={id} aria-labelledby={titleId} class="border-b border-line">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-20">
+    <header class="max-w-2xl">
+      {
+        eyebrow && (
+          <p class="flex items-center gap-3 text-xs font-bold tracking-widest text-cream/70 uppercase sm:text-sm">
+            <span class="h-0.5 w-8 bg-brand" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )
+      }
+      <h2 id={titleId} class="mt-3 text-3xl leading-tight font-extrabold tracking-tight text-balance sm:text-4xl">
+        {title}
+      </h2>
+      {intro && <p class="mt-4 text-lg text-cream/80">{intro}</p>}
+    </header>
+    <div class="mt-10">
+      <slot />
+    </div>
+  </div>
+</section>

@@ -12,6 +12,10 @@ type IconName =
   | 'mail'
   | 'clock'
   | 'check'
+  | 'arrow-right'
+  | 'wrench'
+  | 'snowflake'
+  | 'tire'
   | 'facebook'
   | 'instagram'
   | 'tiktok';
@@ -34,6 +38,12 @@ const paths: Record<IconName, string> = {
   mail: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>',
   clock: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
+  'arrow-right': '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  wrench:
+    '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>',
+  snowflake:
+    '<path d="M12 2v20"/><path d="m3.34 7 17.32 10"/><path d="m3.34 17 17.32-10"/><path d="m9 4 3 2 3-2"/><path d="m9 20 3-2 3 2"/>',
+  tire: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><path d="M12 10V6"/><path d="m13.9 11.38 3.81-1.23"/><path d="m13.18 13.62 2.35 3.23"/><path d="m10.82 13.62-2.35 3.23"/><path d="m10.1 11.38-3.81-1.23"/>',
   facebook: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
   instagram:
     '<rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>',

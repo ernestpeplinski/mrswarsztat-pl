@@ -1,0 +1,42 @@
+---
+import Icon from '../icons/Icon.astro';
+import type { Service } from '../../config/services';
+
+type Props = Service;
+
+const { href, title, description, icon, badge } = Astro.props;
+---
+
+<!--
+  Cała karta jest klikalna: link w nagłówku H3 rozciągnięty na kartę (after:absolute after:inset-0).
+  Tekst linku = nazwa usługi (dobry anchor text dla SEO).
+-->
+<article
+  class="group relative flex h-full flex-col rounded-2xl border border-line bg-ink-2 p-6 transition-colors hover:border-brand"
+>
+  <div class="flex items-start justify-between gap-3">
+    <span class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand/15 text-brand">
+      <Icon name={icon} size={30} />
+    </span>
+    {
+      badge && (
+        <span class="rounded-full bg-brand px-3 py-1 text-xs font-bold tracking-wide text-white uppercase">
+          {badge}
+        </span>
+      )
+    }
+  </div>
+
+  <h3 class="mt-5 text-xl font-extrabold">
+    <a href={href} class="after:absolute after:inset-0 after:content-['']">{title}</a>
+  </h3>
+  <p class="mt-3 flex-1 text-cream/80">{description}</p>
+
+  <span
+    class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-brand transition-all group-hover:gap-3"
+    aria-hidden="true"
+  >
+    Zobacz więcej
+    <Icon name="arrow-right" size={18} />
+  </span>
+</article>

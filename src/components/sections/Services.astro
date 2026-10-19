@@ -1,0 +1,22 @@
+---
+import Section from '../ui/Section.astro';
+import ServiceCard from '../cards/ServiceCard.astro';
+import { SERVICES } from '../../config/services';
+---
+
+<Section
+  id="uslugi"
+  eyebrow="Usługi"
+  title="Wulkanizacja, klimatyzacja i mechanika w Kaliskach Kościerskich"
+  intro="Wszystko w jednym miejscu, kilka kilometrów od Kościerzyny. Wybierz usługę, a dowiesz się, jak wygląda wizyta."
+>
+  <ul class="grid gap-5 md:grid-cols-3">
+    {
+      SERVICES.map((service) => (
+        <li>
+          <ServiceCard {...service} />
+        </li>
+      ))
+    }
+  </ul>
+</Section>
