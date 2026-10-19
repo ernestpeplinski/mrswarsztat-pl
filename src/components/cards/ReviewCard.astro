@@ -1,0 +1,31 @@
+---
+import type { Review } from '../../config/reviews';
+
+type Props = Review;
+
+const { author, text } = Astro.props;
+---
+
+<figure class="relative flex h-full flex-col rounded-2xl border border-line bg-ink-2 p-6">
+  <!-- Dekoracyjny cudzysłów -->
+  <span class="absolute top-3 right-5 font-serif text-7xl leading-none text-brand/30 select-none" aria-hidden="true">
+    ”
+  </span>
+
+  <blockquote class="flex-1">
+    <p class="text-cream/90">„{text}”</p>
+  </blockquote>
+
+  <figcaption class="mt-6 flex items-center gap-3 border-t border-line pt-4">
+    <span
+      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-base font-extrabold text-white"
+      aria-hidden="true"
+    >
+      {author.charAt(0).toUpperCase()}
+    </span>
+    <span>
+      <span class="block font-bold">{author}</span>
+      <span class="block text-xs text-muted">Opinia z Google</span>
+    </span>
+  </figcaption>
+</figure>

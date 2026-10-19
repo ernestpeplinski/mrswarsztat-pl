@@ -27,7 +27,12 @@ const data = {
     addressRegion: SITE.address.region,
     addressCountry: SITE.address.country,
   },
-  // TODO: dodać "geo" (GeoCoordinates) po odczytaniu współrzędnych z Map Google.
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: SITE.geo.latitude,
+    longitude: SITE.geo.longitude,
+  },
+  hasMap: SITE.google.mapsUrl,
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',

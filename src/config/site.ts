@@ -47,6 +47,17 @@ export const SITE = {
     `${address.street}, ${address.postalCode} ${address.locality}`,
   )}`,
 
+  /** Współrzędne warsztatu (z wizytówki Google) – używane w JSON-LD (geo). */
+  geo: { latitude: 54.1609045, longitude: 18.038287 },
+
+  /** Wizytówka Google. placeId wyliczony z linku do Map; link do pisania opinii najlepiej podmienić na oficjalny z Profilu Firmy. */
+  google: {
+    mapsUrl: 'https://maps.app.goo.gl/rcSg1whvzMWQ9nRT9',
+    placeId: 'ChIJaQ9CagB3AkcRCsHmHyeqGwc',
+    reviewsUrl: 'https://search.google.com/local/reviews?placeid=ChIJaQ9CagB3AkcRCsHmHyeqGwc',
+    writeReviewUrl: 'https://search.google.com/local/writereview?placeid=ChIJaQ9CagB3AkcRCsHmHyeqGwc',
+  },
+
   social: {
     facebook: 'https://www.facebook.com/profile.php?id=61581669183592',
     instagram: 'https://www.instagram.com/mrsserwissamochodowy',
