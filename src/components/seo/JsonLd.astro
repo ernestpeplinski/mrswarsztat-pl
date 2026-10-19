@@ -1,0 +1,14 @@
+---
+/**
+ * Bazowy komponent: wstrzykuje obiekt (lub tablicę obiektów) jako <script type="application/ld+json">.
+ * Znak "<" jest escapowany, żeby treść nie mogła zamknąć znacznika <script>.
+ */
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { data } = Astro.props;
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<script is:inline type="application/ld+json" set:html={json} />

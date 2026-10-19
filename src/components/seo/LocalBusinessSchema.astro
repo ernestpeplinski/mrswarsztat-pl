@@ -1,0 +1,51 @@
+---
+import JsonLd from './JsonLd.astro';
+import { SITE } from '../../config/site';
+
+/**
+ * Encja firmy (AutoRepair ⊂ LocalBusiness). Dołączana globalnie w Layout.astro.
+ * Dane pochodzą wyłącznie z config/site.ts, więc zgadzają się z nagłówkiem, stopką i wizytówką Google.
+ * Pozostałe schematy (Service) odwołują się do niej przez @id.
+ */
+const image = new URL(SITE.defaultOgImage, SITE.url).href;
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoRepair',
+  '@id': SITE.businessId,
+  name: SITE.name,
+  url: `${SITE.url}/`,
+  image,
+  logo: image,
+  telephone: SITE.phones[0].e164,
+  email: SITE.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.address.street,
+    postalCode: SITE.address.postalCode,
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    addressCountry: SITE.address.country,
+  },
+  // TODO: dodać "geo" (GeoCoordinates) po odczytaniu współrzędnych z Map Google.
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [...SITE.hours.days],
+      opens: SITE.hours.opens,
+      closes: SITE.hours.closes,
+    },
+  ],
+  areaServed: SITE.areaServed.map((name) => ({ '@type': 'Place', name })),
+  contactPoint: SITE.phones.map((phone) => ({
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    telephone: phone.e164,
+    areaServed: SITE.address.country,
+    availableLanguage: 'pl',
+  })),
+  sameAs: Object.values(SITE.social),
+};
+---
+
+<JsonLd data={data} />

@@ -1,0 +1,104 @@
+---
+import Icon from '../icons/Icon.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import { SITE } from '../../config/site';
+
+const phone = SITE.phones[0];
+
+// Krótkie punkty zaufania – oparte na opiniach klientów z Google.
+const points = ['Wymiana i wyważanie kół', 'Fachowe doradztwo', 'Uczciwe ceny'];
+---
+
+<!--
+  HERO. Górny padding (pt-24 / md:pt-32) jest celowo większy niż zwykle:
+  logo z Headera wystaje poniżej paska (ok. 85 px mobile / 115 px desktop) i nie może nachodzić na treść.
+-->
+<section class="relative overflow-hidden border-b border-line">
+  <!-- Tło: czerwona poświata z logo -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_70%_at_85%_15%,rgba(234,2,10,0.28),transparent_70%)]"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pt-24 pb-12 sm:px-6 md:pt-32 md:pb-20 lg:grid-cols-[1.4fr_1fr]"
+  >
+    <div>
+      <p class="flex items-center gap-3 text-xs font-bold tracking-widest text-cream/70 uppercase sm:text-sm">
+        <span class="h-0.5 w-8 bg-brand" aria-hidden="true"></span>
+        Wulkanizacja · Klimatyzacja · Mechanika
+      </p>
+
+      <h1 class="mt-4 text-4xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+        Zmień opony na zimowe w Kaliskach Kościerskich.
+        <span class="mt-2 block text-brand">Bez czekania w długich kolejkach!</span>
+      </h1>
+
+      <p class="mt-5 max-w-xl text-lg text-cream/80">
+        Wymiana opon, wyważanie, serwis klimatyzacji i mechanika pojazdowa kilka kilometrów od Kościerzyny.
+        Szybko, fachowo i w uczciwej cenie.
+      </p>
+
+      <!-- Na telefonie CTA to dolny pasek (StickyMobileBar), więc tu przyciski są od md wzwyż. -->
+      <div class="mt-8 hidden gap-3 md:flex">
+        <PrimaryButton href={phone.href} icon="phone" size="lg">
+          Zadzwoń {phone.display}
+        </PrimaryButton>
+        <PrimaryButton
+          href={SITE.directionsUrl}
+          variant="secondary"
+          icon="map-pin"
+          size="lg"
+          external
+        >
+          Wyznacz trasę
+        </PrimaryButton>
+      </div>
+
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-cream/90">
+        {
+          points.map((point) => (
+            <li class="inline-flex items-center gap-2">
+              <Icon name="check" size={18} class="text-brand" />
+              {point}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!--
+      Karta z danymi – tylko na dużych ekranach (na telefonie rolę kontaktu pełni pasek na dole).
+      TODO: tu (lub obok) wstawimy prawdziwe zdjęcie warsztatu / stanowiska wulkanizacji.
+    -->
+    <aside aria-label="Dane kontaktowe" class="hidden rounded-2xl border border-line bg-ink-2/80 p-6 backdrop-blur lg:block">
+      <p class="text-xs font-bold tracking-wider text-muted uppercase">Warsztat</p>
+      <p class="mt-2 text-xl font-extrabold">{SITE.name}</p>
+
+      <ul class="mt-5 space-y-4 text-cream/90">
+        <li class="flex items-start gap-3">
+          <Icon name="map-pin" size={20} class="mt-0.5 shrink-0 text-brand" />
+          <span>
+            {SITE.address.street}<br />
+            {SITE.address.postalCode} {SITE.address.locality}
+          </span>
+        </li>
+        <li class="flex items-center gap-3">
+          <Icon name="clock" size={20} class="shrink-0 text-brand" />
+          {SITE.hours.label}
+        </li>
+        {
+          SITE.phones.map((p) => (
+            <li>
+              <a href={p.href} class="flex items-center gap-3 font-bold transition-colors hover:text-white">
+                <Icon name="phone" size={20} class="shrink-0 text-brand" />
+                {p.display}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+</section>

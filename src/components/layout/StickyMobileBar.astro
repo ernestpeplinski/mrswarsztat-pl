@@ -1,0 +1,37 @@
+---
+import Icon from '../icons/Icon.astro';
+import { SITE } from '../../config/site';
+
+const phone = SITE.phones[0];
+---
+
+<!--
+  Pasek przyklejony do dołu ekranu – tylko smartfony/tablety (md:hidden).
+  Kluczowy element konwersji: jedno dotknięcie = połączenie albo nawigacja.
+  Layout.astro dodaje do <body> dolny padding, żeby pasek nie zasłaniał treści.
+-->
+<nav
+  aria-label="Szybki kontakt"
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-ink/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+>
+  <div class="grid grid-cols-2 gap-2 p-2">
+    <a
+      href={phone.href}
+      class="flex h-12 items-center justify-center gap-2 rounded-lg bg-brand text-base font-bold text-white active:bg-brand-hover"
+      aria-label={`Zadzwoń do ${SITE.name}: ${phone.display}`}
+    >
+      <Icon name="phone" size={22} />
+      Zadzwoń
+    </a>
+    <a
+      href={SITE.directionsUrl}
+      target="_blank"
+      rel="noopener"
+      class="flex h-12 items-center justify-center gap-2 rounded-lg border border-cream/30 bg-ink-2 text-base font-bold text-cream active:bg-line"
+      aria-label={`Wyznacz trasę do ${SITE.name}, ${SITE.fullAddress}`}
+    >
+      <Icon name="map-pin" size={22} />
+      Wyznacz trasę
+    </a>
+  </div>
+</nav>

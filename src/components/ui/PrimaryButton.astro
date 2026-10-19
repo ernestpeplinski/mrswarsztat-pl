@@ -1,0 +1,42 @@
+---
+import type { ComponentProps, HTMLAttributes } from 'astro/types';
+import Icon from '../icons/Icon.astro';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  /** primary = czerwony (główne CTA „Zadzwoń”), secondary = ciemny z obramowaniem. */
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'lg';
+  /** Nazwa ikony z Icon.astro – wyświetlana przed tekstem. */
+  icon?: ComponentProps<typeof Icon>['name'];
+  /** Otwiera w nowej karcie (np. Mapy Google). */
+  external?: boolean;
+}
+
+const { href, variant = 'primary', size = 'md', icon, external = false, class: className, ...rest } = Astro.props;
+
+const variants = {
+  primary: 'bg-brand text-white hover:bg-brand-hover active:bg-brand-hover',
+  secondary: 'border border-cream/30 bg-ink-2 text-cream hover:bg-line active:bg-line',
+};
+const sizes = {
+  md: 'px-4 py-2.5 text-sm',
+  lg: 'px-6 py-3.5 text-base',
+};
+---
+
+<a
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  class:list={[
+    'inline-flex items-center justify-center gap-2 rounded-lg font-bold whitespace-nowrap transition-colors',
+    variants[variant],
+    sizes[size],
+    className,
+  ]}
+  {...rest}
+>
+  {icon && <Icon name={icon} size={size === 'lg' ? 22 : 18} />}
+  <slot />
+</a>

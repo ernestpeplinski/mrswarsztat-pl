@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+/*
+  Tokeny designu wyprowadzone z logo: czerń, czerwień (#ea020a) i kremowa żółć napisu.
+  W Tailwind v4 każdy token z @theme staje się klasami, np. bg-brand, text-cream, border-line.
+*/
+@theme {
+  --color-ink: #0b0b0c; /* tło strony */
+  --color-ink-2: #161618; /* karty, header */
+  --color-line: #2a2a2e; /* obramowania */
+  --color-muted: #a3a3ab; /* tekst pomocniczy */
+  --color-cream: #f6efd9; /* tekst główny (kolor napisu z logo) */
+  --color-brand: #ea020a; /* akcent – przyciski „Zadzwoń” (biały tekst: kontrast ~4.7:1) */
+  --color-brand-hover: #ff2a31;
+
+  /* Systemowy stos fontów = zero requestów i zero CLS. Własny font dodamy później (self-host, woff2). */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+}
+
+/*
+  Plik logo ma wbudowane, kwadratowe czarno-czerwone tło. Maska wygasza je przy krawędziach,
+  więc logo „rozpuszcza się” w tle strony zamiast tworzyć widoczny kwadrat.
+  Jeśli końcówki klucza przy brzegu są ucinane – zwiększ 93% (np. na 96%).
+*/
+.logo-fade {
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 93%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 93%, transparent 100%);
+}
+
+@layer base {
+  html {
+    /* Kotwice (#kontakt itd.) nie chowają się pod przyklejonym headerem. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (min-width: 48rem) {
+    html {
+      scroll-padding-top: 7rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-ink font-sans text-cream antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand;
+  }
+}

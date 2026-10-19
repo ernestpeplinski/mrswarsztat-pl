@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '../icons/Icon.astro';
+import PrimaryButton from '../ui/PrimaryButton.astro';
+import logo from '../../assets/images/mrs-logo.png';
+import { NAV, SITE } from '../../config/site';
+
+const path = Astro.url.pathname;
+const phone = SITE.phones[0];
+---
+
+<header class="sticky top-0 z-50 border-b-2 border-brand bg-ink/95 backdrop-blur supports-[backdrop-filter]:bg-ink/85">
+  <!-- Wysokość paska: h-16 (mobile) / md:h-20 (desktop). Logo jest od niego niezależne i wystaje poza pasek. -->
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 md:h-20">
+    <!--
+      LOGO (src/assets/images/mrs-logo.png, ze starego repo; optymalizowane przez astro:assets).
+      ROZMIAR REGULUJESZ TUTAJ: --logo to szerokość/wysokość logo.
+        mobile: [--logo:9rem]  (144 px)    desktop: md:[--logo:12rem]  (192 px)
+      Link rezerwuje tyle miejsca w poziomie, co logo, a logo wystaje w dół poza header.
+    -->
+    <a
+      href="/"
+      class="relative block h-full w-(--logo) shrink-0 [--logo:9rem] md:[--logo:12rem]"
+      aria-label={`${SITE.name} – strona główna`}
+    >
+      <Image
+        src={logo}
+        alt={`Logo ${SITE.name}`}
+        width={400}
+        height={400}
+        loading="eager"
+        fetchpriority="high"
+        class="logo-fade absolute top-1 left-0 z-10 h-(--logo) w-(--logo) max-w-none"
+      />
+    </a>
+
+    <!-- NAWIGACJA DESKTOP -->
+    <nav aria-label="Główna nawigacja" class="hidden md:block">
+      <ul class="flex items-center gap-1 text-sm font-semibold">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={path === item.href ? 'page' : undefined}
+                class="rounded-md px-3 py-2 text-cream/90 transition-colors hover:bg-ink-2 hover:text-white aria-[current=page]:text-brand"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <!-- CTA DESKTOP (na mobile rolę CTA pełni StickyMobileBar) -->
+      <div class="hidden md:block">
+        <PrimaryButton href={phone.href} icon="phone">{phone.display}</PrimaryButton>
+      </div>
+
+      <!-- MENU MOBILE: <details> = zero JS do otwierania, dostępne z klawiatury -->
+      <details class="group relative md:hidden" data-mobile-menu>
+        <summary
+          class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md border border-line bg-ink-2 [&::-webkit-details-marker]:hidden"
+          aria-label="Menu"
+        >
+          <Icon name="menu" class="group-open:hidden" />
+          <Icon name="x" class="hidden group-open:block" />
+        </summary>
+        <nav
+          aria-label="Menu mobilne"
+          class="absolute top-full right-0 mt-3 w-64 rounded-xl border border-line bg-ink-2 p-2 shadow-2xl"
+        >
+          <ul class="flex flex-col">
+            {
+              NAV.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={path === item.href ? 'page' : undefined}
+                    class="block rounded-lg px-4 py-3 text-base font-semibold hover:bg-ink aria-[current=page]:text-brand"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Zamyka menu mobilne po kliknięciu w link (np. kotwicę #kontakt na tej samej stronie).
+  document.querySelectorAll<HTMLDetailsElement>('[data-mobile-menu]').forEach((menu) => {
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => (menu.open = false)));
+  });
+</script>

@@ -1,0 +1,32 @@
+---
+import JsonLd from './JsonLd.astro';
+import { SITE } from '../../config/site';
+
+/**
+ * Schema Service dla podstrony usługi. Użycie na stronie usługi:
+ *   <ServiceSchema slot="head" name="Wulkanizacja" serviceType="Wymiana opon" description="..." path="/wulkanizacja-koscierzyna/" />
+ */
+interface Props {
+  name: string;
+  description: string;
+  /** Rodzaj usługi, np. "Wymiana i serwis opon". */
+  serviceType?: string;
+  /** Ścieżka podstrony usługi, np. "/wulkanizacja-koscierzyna/". */
+  path?: string;
+}
+
+const { name, description, serviceType, path } = Astro.props;
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name,
+  description,
+  ...(serviceType && { serviceType }),
+  ...(path && { url: new URL(path, SITE.url).href }),
+  provider: { '@id': SITE.businessId },
+  areaServed: SITE.areaServed.map((place) => ({ '@type': 'Place', name: place })),
+};
+---
+
+<JsonLd data={data} />
