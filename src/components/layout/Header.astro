@@ -4,6 +4,7 @@ import Icon from '../icons/Icon.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
 import logo from '../../assets/images/mrs-logo.png';
 import { NAV, SITE } from '../../config/site';
+import { url } from '../../utils/url';
 
 const path = Astro.url.pathname;
 const phone = SITE.phones[0];
@@ -19,7 +20,7 @@ const phone = SITE.phones[0];
       Link rezerwuje tyle miejsca w poziomie, co logo, a logo wystaje w dół poza header.
     -->
     <a
-      href="/"
+      href={url('/')}
       class="relative block h-full w-(--logo) shrink-0 [--logo:9rem] md:[--logo:12rem]"
       aria-label={`${SITE.name} – strona główna`}
     >
@@ -41,8 +42,8 @@ const phone = SITE.phones[0];
           NAV.map((item) => (
             <li>
               <a
-                href={item.href}
-                aria-current={path === item.href ? 'page' : undefined}
+                href={url(item.href)}
+                aria-current={path === url(item.href) ? 'page' : undefined}
                 class="rounded-md px-3 py-2 text-cream/90 transition-colors hover:bg-ink-2 hover:text-white aria-[current=page]:text-brand"
               >
                 {item.label}
@@ -77,8 +78,8 @@ const phone = SITE.phones[0];
               NAV.map((item) => (
                 <li>
                   <a
-                    href={item.href}
-                    aria-current={path === item.href ? 'page' : undefined}
+                    href={url(item.href)}
+                    aria-current={path === url(item.href) ? 'page' : undefined}
                     class="block rounded-lg px-4 py-3 text-base font-semibold hover:bg-ink aria-[current=page]:text-brand"
                   >
                     {item.label}

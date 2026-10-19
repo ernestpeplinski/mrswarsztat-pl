@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Icon from '../icons/Icon.astro';
 import logo from '../../assets/images/mrs-logo.png';
 import { NAV, SITE } from '../../config/site';
+import { url } from '../../utils/url';
 
 const year = new Date().getFullYear();
 
@@ -21,7 +22,7 @@ const link = 'transition-colors hover:text-white';
     <!-- Trzy wyśrodkowane kolumny: marka + adres | kontakt | social media -->
     <div class="grid gap-8 text-center md:grid-cols-3 md:items-start">
       <div class="flex flex-col items-center">
-        <a href="/" aria-label={`${SITE.name} – strona główna`}>
+        <a href={url('/')} aria-label={`${SITE.name} – strona główna`}>
           <Image
             src={logo}
             alt={`Logo ${SITE.name}`}
@@ -102,7 +103,7 @@ const link = 'transition-colors hover:text-white';
         {
           NAV.map((item) => (
             <li>
-              <a href={item.href} class={link}>
+              <a href={url(item.href)} class={link}>
                 {item.label}
               </a>
             </li>

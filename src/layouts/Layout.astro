@@ -5,6 +5,7 @@ import Footer from '../components/layout/Footer.astro';
 import StickyMobileBar from '../components/layout/StickyMobileBar.astro';
 import LocalBusinessSchema from '../components/seo/LocalBusinessSchema.astro';
 import { SITE } from '../config/site';
+import { url } from '../utils/url';
 
 interface Props {
   /** Pełny tytuł <title> (ok. 50–60 znaków, fraza kluczowa na początku). */
@@ -30,8 +31,10 @@ const {
 
 // Canonical bez parametrów zapytania; Astro.site pochodzi z astro.config.mjs.
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL(image, Astro.site);
-const robots = noindex
+const ogImageURL = new URL(url(image), Astro.site);
+// PUBLIC_NOINDEX=true ustawia workflow wdrożenia testowego (GitHub Pages) – testowa kopia nie trafia do Google.
+const hideFromSearch = noindex || import.meta.env.PUBLIC_NOINDEX === 'true';
+const robots = hideFromSearch
   ? 'noindex, nofollow'
   : 'index, follow, max-image-preview:large, max-snippet:-1';
 ---
@@ -51,8 +54,8 @@ const robots = noindex
     <meta name="color-scheme" content="dark" />
 
     <!-- Favicony -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />

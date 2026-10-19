@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PrimaryButton from '../components/ui/PrimaryButton.astro';
+import { url } from '../utils/url';
+---
+
+<Layout title="Nie znaleziono strony – MRS Serwis Samochodowy" description="Taka strona nie istnieje." noindex>
+  <section class="mx-auto max-w-6xl px-4 pt-28 pb-20 sm:px-6 md:pt-36">
+    <p class="text-sm font-bold tracking-widest text-brand uppercase">Błąd 404</p>
+    <h1 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">Nie znaleziono strony</h1>
+    <p class="mt-4 max-w-xl text-lg text-cream/80">
+      Ta podstrona jeszcze nie istnieje albo adres jest nieprawidłowy.
+    </p>
+    <div class="mt-8">
+      <PrimaryButton href={url('/')} size="lg">Wróć na stronę główną</PrimaryButton>
+    </div>
+  </section>
+</Layout>
