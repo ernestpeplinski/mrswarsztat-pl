@@ -14,6 +14,7 @@ const label = 'mb-1.5 block text-sm font-semibold';
 -->
 <form
   data-contact-form
+  novalidate
   data-endpoint={SITE.form.endpoint}
   data-access-key={SITE.form.accessKey}
   data-phone-href={phone.href}
@@ -29,16 +30,16 @@ const label = 'mb-1.5 block text-sm font-semibold';
   <div class="grid gap-5 sm:grid-cols-2">
     <div>
       <label for="cf-name" class={label}>Imię</label>
-      <input id="cf-name" name="Imię" type="text" required autocomplete="given-name" class={field} />
+      <input id="cf-name" name="Imię" type="text" required minlength="2" maxlength="60" autocomplete="given-name" class={field} />
     </div>
     <div>
       <label for="cf-phone" class={label}>Telefon</label>
-      <input id="cf-phone" name="Telefon" type="tel" required autocomplete="tel" inputmode="tel" class={field} />
+      <input id="cf-phone" name="Telefon" type="tel" required maxlength="20" autocomplete="tel" inputmode="tel" placeholder="np. 600 100 200" data-validate="phone" class={field} />
     </div>
 
     <div>
       <label for="cf-car" class={label}>Marka i model auta</label>
-      <input id="cf-car" name="Auto (marka i model)" type="text" required placeholder="np. Skoda Octavia" class={field} />
+      <input id="cf-car" name="Auto (marka i model)" type="text" required minlength="2" maxlength="60" placeholder="np. Skoda Octavia" class={field} />
     </div>
     <div>
       <label for="cf-year" class={label}>Rocznik</label>
@@ -47,10 +48,26 @@ const label = 'mb-1.5 block text-sm font-semibold';
         name="Rocznik"
         type="text"
         inputmode="numeric"
-        pattern="(19|20)[0-9]{2}"
         maxlength="4"
         placeholder="np. 2016"
+        data-validate="year"
         class={field}
+      />
+    </div>
+
+    <div class="sm:col-span-2">
+      <label for="cf-vin" class={label}>Numer VIN <span class="font-normal text-muted">(opcjonalnie)</span></label>
+      <input
+        id="cf-vin"
+        name="Numer VIN"
+        type="text"
+        maxlength="17"
+        autocapitalize="characters"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="17 znaków, jest w dowodzie rejestracyjnym (pole E)"
+        data-validate="vin"
+        class={field + ' uppercase placeholder:normal-case'}
       />
     </div>
 
@@ -72,13 +89,15 @@ const label = 'mb-1.5 block text-sm font-semibold';
         name="Opis problemu"
         rows="4"
         required
+        minlength="10"
+        maxlength="2000"
         placeholder="np. stukanie z przodu, świeci kontrolka, wymiana opon na zimowe"
         class={field}></textarea>
     </div>
 
     <div class="sm:col-span-2">
       <label for="cf-email" class={label}>E-mail <span class="font-normal text-muted">(opcjonalnie)</span></label>
-      <input id="cf-email" name="E-mail" type="email" autocomplete="email" class={field} />
+      <input id="cf-email" name="E-mail" type="email" maxlength="100" autocomplete="email" class={field} />
     </div>
 
     <div class="sm:col-span-2">
@@ -122,8 +141,99 @@ const label = 'mb-1.5 block text-sm font-semibold';
         (ok ? 'bg-green-900/40 text-green-200' : 'bg-red-900/40 text-red-200');
     };
 
+    // Walidatory: natywne atrybuty (required, minlength, type=email) + reguły poniżej, z polskimi komunikatami.
+    const PHONE_RE = /^\d{9}$/;
+    const VIN_RE = /^[A-HJ-NPR-Z0-9]{17}$/; // VIN nie zawiera liter I, O, Q
+    /** Zwraca komunikat błędu dla pól z data-validate albo '' gdy poprawne/puste. */
+    const customError = (input: HTMLInputElement): string => {
+      const value = input.value.trim();
+      if (!value) return '';
+      switch (input.dataset.validate) {
+        case 'phone': {
+          const digits = value.replace(/[\s\-().]/g, '').replace(/^(\+|00)48/, '');
+          return PHONE_RE.test(digits) ? '' : 'Podaj polski numer telefonu (9 cyfr).';
+        }
+        case 'year': {
+          const year = Number(value);
+          const max = new Date().getFullYear() + 1;
+          return /^\d{4}$/.test(value) && year >= 1950 && year <= max ? '' : `Podaj rok od 1950 do ${max}.`;
+        }
+        case 'vin':
+          return VIN_RE.test(value) ? '' : 'VIN ma 17 znaków (cyfry i litery, bez I, O, Q).';
+        default:
+          return '';
+      }
+    };
+
+    type Field = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+    /** Komunikat błędu dla pola albo '' gdy poprawne. Nie polegamy na dymkach przeglądarki (na telefonach bywają niewidoczne). */
+    const errorFor = (input: Field): string => {
+      const { validity } = input;
+      if (validity.valueMissing) {
+        const isConsent = input instanceof HTMLInputElement && input.type === 'checkbox';
+        return isConsent ? 'Zaznacz zgodę, aby wysłać zapytanie.' : 'Uzupełnij to pole.';
+      }
+      if (validity.tooShort) return `Wpisz co najmniej ${input.minLength} znaków.`;
+      if (validity.typeMismatch) return 'Podaj poprawny adres e-mail.';
+      return input instanceof HTMLInputElement ? customError(input) : '';
+    };
+
+    const fields = [
+      ...form.querySelectorAll<Field>('input:not([type="hidden"]):not([name="botcheck"]), textarea, select'),
+    ];
+
+    // Każde pole dostaje element na komunikat (aria-describedby) – widoczny pod polem.
+    const messages = new Map<Field, HTMLElement>();
+    fields.forEach((input) => {
+      const message = document.createElement('p');
+      message.id = `${input.id || input.name.replace(/\W+/g, '-')}-error`;
+      message.className = 'mt-1.5 hidden text-sm font-semibold text-red-300';
+      const host = input.closest('label') ?? input;
+      host.insertAdjacentElement('afterend', message);
+      input.setAttribute('aria-describedby', message.id);
+      messages.set(input, message);
+    });
+
+    /** Waliduje pole i pokazuje/ukrywa komunikat. Zwraca true, gdy pole jest poprawne. */
+    const check = (input: Field): boolean => {
+      const error = errorFor(input);
+      const message = messages.get(input)!;
+      message.textContent = error;
+      message.classList.toggle('hidden', !error);
+      input.toggleAttribute('aria-invalid', !!error);
+      input.classList.toggle('border-red-400', !!error);
+      return !error;
+    };
+
+    fields.forEach((input) => {
+      // Błąd pokazujemy po opuszczeniu pola; po pierwszym błędzie poprawiamy go na bieżąco.
+      input.addEventListener('blur', () => check(input));
+      input.addEventListener('input', () => {
+        if (input.dataset.validate === 'vin') {
+          input.value = input.value.replace(/[\s-]/g, '').toUpperCase();
+        }
+        if (input.hasAttribute('aria-invalid')) check(input);
+      });
+      input.addEventListener('change', () => check(input));
+    });
+
+    form.addEventListener('reset', () => {
+      fields.forEach((input) => {
+        messages.get(input)!.classList.add('hidden');
+        input.removeAttribute('aria-invalid');
+        input.classList.remove('border-red-400');
+      });
+    });
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      const invalid = fields.filter((input) => !check(input));
+      if (invalid.length) {
+        invalid[0].focus();
+        return;
+      }
 
       const { endpoint, accessKey, phone, phoneHref } = {
         endpoint: form.dataset.endpoint ?? '',
