@@ -26,8 +26,8 @@ JSON-LD: `LocalBusinessSchema` jest globalnie w `Layout`; `ServiceSchema` i `Faq
 Layout (SEO head, slot JSON-LD), Header, StickyMobileBar, Footer, PrimaryButton, Section, Hero, Usługi, Opinie, Kontakt + formularz (Web3Forms), 404, konfiguracja GitHub Pages (`.github/workflows/deploy.yml`, ustawia `SITE_URL`, `BASE_PATH`, `PUBLIC_NOINDEX`).
 
 ## Do zrobienia (kolejność luźna)
-1. **PRZYPOMNIĆ UŻYTKOWNIKOWI:** ocena Google (4,9/5, 125 opinii) jest wpisana ręcznie w `config/reviews.ts` (`GOOGLE_RATING`) – zmienić na dynamiczną: pobieranie z Google Places API przy buildzie (klucz w sekretach GitHuba) + cykliczny rebuild (cron w workflow). Wymaga atrybucji Google. Własne 3 opinie zostają ręczne.
-2. Podmienić `SITE.google.writeReviewUrl` na oficjalny link z Profilu Firmy Google („Zbierz więcej opinii”).
+1. Ocena Google (4,9/5, bez liczby opinii) jest wpisana ręcznie w `config/reviews.ts` (`GOOGLE_RATING`) – aktualizować co kilka tygodni z wizytówki. Opcjonalnie dynamiczna wersja (wymaga firmowego konta Google Cloud z kartą): pobieranie z Google Places API przy buildzie (klucz w sekretach GitHuba) + cykliczny rebuild (cron w workflow). Wymaga atrybucji Google. Własne 3 opinie zostają ręczne.
+2. ~~Link do opinii~~ – obecny `SITE.google.writeReviewUrl` (format placeid) działa; oficjalny skrót z Profilu Firmy zbędny.
 3. ~~Klucz Web3Forms~~ – wpisany; przetestować wysyłkę na stronie testowej.
 4. Sekcja FAQ + `FaqSchema` (uwaga: Google nie pokazuje już rozwijanych FAQ dla zwykłych firm – FAQ głównie dla klientów).
 5. Galeria (prawdziwe zdjęcia warsztatu; na start placeholdery).

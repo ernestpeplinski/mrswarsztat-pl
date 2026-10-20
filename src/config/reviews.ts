@@ -24,7 +24,7 @@ export const REVIEWS: Review[] = [
 ];
 
 /**
- * Średnia ocena i liczba opinii w Google – WPISANE RĘCZNIE (stan na 2026-10-20).
+ * Średnia ocena w Google – WPISANE RĘCZNIE (stan na 2026-10-20).
  * Docelowo pobierane automatycznie podczas budowania strony (Places API), wtedy ten obiekt zniknie.
  */
-export const GOOGLE_RATING = { rating: 4.9, count: 125 };
+export const GOOGLE_RATING = { rating: 4.9 };
