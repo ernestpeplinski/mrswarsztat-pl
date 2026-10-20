@@ -3,16 +3,21 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
 import Services from '../components/sections/Services.astro';
 import Reviews from '../components/sections/Reviews.astro';
+import Faq from '../components/sections/Faq.astro';
 import Contact from '../components/sections/Contact.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+import { FAQ } from '../config/faq';
 ---
 
 <Layout
   title="Wulkanizacja i wymiana opon Kościerzyna – MRS Serwis Samochodowy"
   description="Wymiana opon na zimowe, wyważanie, klimatyzacja i mechanika w Kaliskach Kościerskich, koło Kościerzyny. Bez kolejek. Zadzwoń: 727 470 300."
 >
+  <FaqSchema slot="head" items={FAQ} />
   <Hero />
   <Services />
   <Reviews />
+  <Faq />
   <Contact />
-  <!-- Kolejne sekcje: galeria, FAQ. -->
+  <!-- Kolejne sekcje: galeria. -->
 </Layout>
