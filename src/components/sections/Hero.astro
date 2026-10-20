@@ -1,6 +1,7 @@
 ---
 import Icon from '../icons/Icon.astro';
 import PrimaryButton from '../ui/PrimaryButton.astro';
+import SeasonText from '../ui/SeasonText.astro';
 import { SITE } from '../../config/site';
 
 const phone = SITE.phones[0];
@@ -31,7 +32,7 @@ const points = ['Wymiana i wyważanie kół', 'Fachowe doradztwo', 'Uczciwe ceny
       </p>
 
       <h1 class="mt-4 text-4xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-        Zmień opony na zimowe w Kaliskach Kościerskich.
+        Zmień opony na <SeasonText field="tires" /> w Kaliskach Kościerskich.
         <span class="mt-2 block text-brand">Bez czekania w długich kolejkach!</span>
       </h1>
 
@@ -56,7 +57,7 @@ const points = ['Wymiana i wyważanie kół', 'Fachowe doradztwo', 'Uczciwe ceny
         </PrimaryButton>
       </div>
 
-      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-cream/90">
+      <ul class="mt-8 flex flex-col gap-2 text-sm font-semibold text-cream/90 sm:flex-row sm:flex-wrap sm:gap-x-6">
         {
           points.map((point) => (
             <li class="inline-flex items-center gap-2">

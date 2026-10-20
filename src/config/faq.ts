@@ -1,4 +1,5 @@
 import { SITE } from './site';
+import { SEASONS, getSeason } from './season';
 
 /**
  * Pytania i odpowiedzi – widoczne w sekcji FAQ oraz w JSON-LD (FaqSchema). Jedno źródło,
@@ -10,6 +11,7 @@ export interface FaqItem {
   answer: string;
 }
 
+const season = SEASONS[getSeason()].tires;
 const phones = SITE.phones.map((phone) => phone.display).join(' lub ');
 
 export const FAQ: FaqItem[] = [
@@ -22,13 +24,13 @@ export const FAQ: FaqItem[] = [
     answer: `Jesteśmy czynni w dni robocze (${SITE.hours.label}). Przed przyjazdem warto zadzwonić: ${phones}.`,
   },
   {
-    question: 'Jak ustalić termin wymiany opon na zimowe?',
+    question: `Jak ustalić termin wymiany opon na ${season}?`,
     answer: `Najprościej zadzwonić: ${phones}. Możesz też wysłać zapytanie przez formularz kontaktowy na tej stronie.`,
   },
   {
     question: 'Czym zajmuje się warsztat?',
     answer:
-      'Wulkanizacją (wymiana opon na zimowe, wyważanie kół), serwisem klimatyzacji (serwis, odgrzybianie, naprawa) oraz mechaniką, w tym diagnostyką komputerową i bieżącymi naprawami.',
+      `Wulkanizacją (wymiana opon na ${season}, wyważanie kół), serwisem klimatyzacji (serwis, odgrzybianie, naprawa) oraz mechaniką, w tym diagnostyką komputerową i bieżącymi naprawami.`,
   },
   {
     question: 'Czy sprawdzicie przyczynę świecącej kontrolki lub stukania w aucie?',

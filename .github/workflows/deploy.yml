@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Przebudowa 1. dnia miesiąca – teksty sezonowe (zimowe/letnie) w meta, FAQ i JSON-LD ustawiane są przy buildzie.
+  schedule:
+    - cron: '0 4 1 * *'
   workflow_dispatch:
 
 permissions:

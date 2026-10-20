@@ -37,6 +37,9 @@ Layout (SEO head, slot JSON-LD), Header, StickyMobileBar, Footer, PrimaryButton,
 9. Grafika OG 1200×630 (teraz kwadratowe logo), prawdziwe zdjęcie w Hero, logo z przezroczystym tłem (zamiast maski).
 10. Wizytówka Google ma w nazwie upchane frazy („…Mechanika, wulkanizacja i klimatyzacja.Kościerzyna…”) – zalecić użytkownikowi poprawę (ryzyko zawieszenia).
 
+## Sezon na opony
+Teksty o oponach zimowych/letnich zależą od pory roku (`src/config/season.ts`: zima paź–lut, lato mar–wrz). `SeasonText.astro` (hero, plakietka usługi) poprawia się w przeglądarce według daty; meta, FAQ i JSON-LD ustawia build, a workflow przebudowuje stronę 1. dnia miesiąca (`schedule`). Nowe teksty o sezonie: używaj `SEASONS[getSeason()]`, nie wpisuj „zimowe” na sztywno.
+
 ## Uwagi
 - Commity robi użytkownik (lub Claude lokalnie, jeśli poprosi).
 - Po każdej sekcji sprawdzaj wygląd na telefonie (375 px) i desktopie oraz konsolę przeglądarki.
