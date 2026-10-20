@@ -1,0 +1,129 @@
+---
+import Layout from './Layout.astro';
+import Icon from '../components/icons/Icon.astro';
+import PrimaryButton from '../components/ui/PrimaryButton.astro';
+import Section from '../components/ui/Section.astro';
+import ServiceCard from '../components/cards/ServiceCard.astro';
+import ServiceSchema from '../components/seo/ServiceSchema.astro';
+import { SERVICES } from '../config/services';
+import { SITE } from '../config/site';
+import { url } from '../utils/url';
+import type { ComponentProps } from 'astro/types';
+
+/**
+ * Wspólny szablon podstrony usługi (silos SEO): hero z H1, treść w slocie,
+ * pasek „Zadzwoń”, linki do pozostałych usług oraz ServiceSchema.
+ */
+interface Props {
+  /** <title> i meta description. */
+  title: string;
+  description: string;
+  /** Ścieżka tej podstrony – musi być zgodna z config/services.ts (np. "/wulkanizacja-koscierzyna/"). */
+  path: string;
+  /** Krótka nazwa w okruszkach i schemacie, np. "Wulkanizacja". */
+  name: string;
+  serviceType: string;
+  h1: string;
+  lead: string;
+  points: string[];
+  icon: ComponentProps<typeof Icon>['name'];
+}
+
+const { title, description, path, name, serviceType, h1, lead, points, icon } = Astro.props;
+const phone = SITE.phones[0];
+const others = SERVICES.filter((service) => service.href !== path);
+---
+
+<Layout title={title} description={description}>
+  <ServiceSchema slot="head" {name} {serviceType} {description} {path} />
+  <!-- Dodatkowe dane strukturalne strony (np. FaqSchema) przekazane przez slot="head". -->
+  <slot name="head" slot="head" />
+
+  <section class="relative overflow-hidden border-b border-line">
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_70%_at_85%_15%,rgba(234,2,10,0.28),transparent_70%)]"
+    >
+    </div>
+    <!-- Górny padding większy niż zwykle: logo z Headera wystaje poniżej paska. -->
+    <div class="relative mx-auto max-w-6xl px-4 pt-24 pb-12 sm:px-6 md:pt-32 md:pb-16">
+      <nav aria-label="Okruszki" class="text-sm text-cream/70">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li><a href={url('/')} class="transition-colors hover:text-white">Strona główna</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="font-semibold text-cream">{name}</li>
+        </ol>
+      </nav>
+
+      <div class="mt-6 flex items-start gap-5">
+        <span class="hidden h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand/15 text-brand sm:flex">
+          <Icon name={icon} size={36} />
+        </span>
+        <div class="max-w-3xl">
+          <h1 class="text-4xl leading-[1.1] font-extrabold tracking-tight text-balance sm:text-5xl">{h1}</h1>
+          <p class="mt-5 text-lg text-cream/80">{lead}</p>
+        </div>
+      </div>
+
+      <!-- Na telefonie CTA to dolny pasek (StickyMobileBar). -->
+      <div class="mt-8 hidden gap-3 md:flex">
+        <PrimaryButton href={phone.href} icon="phone" size="lg">Zadzwoń {phone.display}</PrimaryButton>
+        <PrimaryButton href={SITE.directionsUrl} variant="secondary" icon="map-pin" size="lg" external>
+          Wyznacz trasę
+        </PrimaryButton>
+      </div>
+
+      <ul class="mt-8 flex flex-col gap-2 text-sm font-semibold text-cream/90 sm:flex-row sm:flex-wrap sm:gap-x-6">
+        {
+          points.map((point) => (
+            <li class="inline-flex items-center gap-2">
+              <Icon name="check" size={18} class="text-brand" />
+              {point}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <slot />
+
+  <section aria-labelledby="cta-title" class="border-b border-line">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+      <div
+        class="relative overflow-hidden rounded-3xl border border-line bg-ink-2 px-6 py-14 text-center sm:px-12 md:py-20"
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_90%_at_50%_0%,rgba(234,2,10,0.3),transparent_70%)]"
+        >
+        </div>
+        <div class="relative">
+          <h2 id="cta-title" class="text-3xl font-extrabold tracking-tight text-balance sm:text-4xl">
+            Potrzebujesz pomocy? Zadzwoń.
+          </h2>
+          <p class="mx-auto mt-4 max-w-xl text-lg text-cream/80">
+            Czynne {SITE.hours.label.replace('Pon–Pt', 'pon–pt')}. {SITE.address.street}, {SITE.address.locality}
+            – kilka kilometrów od Kościerzyny.
+          </p>
+          <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <PrimaryButton href={phone.href} icon="phone" size="lg">Zadzwoń {phone.display}</PrimaryButton>
+            <PrimaryButton href={url('/#kontakt')} variant="secondary" size="lg">Napisz do nas</PrimaryButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Section id="inne-uslugi" title="Pozostałe usługi">
+    <ul class="grid gap-5 md:grid-cols-2">
+      {
+        others.map((service) => (
+          <li>
+            <ServiceCard {...service} />
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+</Layout>

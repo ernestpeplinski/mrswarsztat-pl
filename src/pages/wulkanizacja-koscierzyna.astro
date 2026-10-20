@@ -1,0 +1,76 @@
+---
+import ServicePage from '../layouts/ServicePage.astro';
+import Section from '../components/ui/Section.astro';
+import Icon from '../components/icons/Icon.astro';
+import { SERVICES } from '../config/services';
+
+import { SEASONS, getSeason } from '../config/season';
+
+const service = SERVICES[0];
+const tires = SEASONS[getSeason()].tires;
+
+const included = [
+  'Wymiana kół',
+  'Wyważanie kół',
+  'Serwis opon i kół',
+  'Doradztwo przy wyborze opon',
+];
+
+const steps = [
+  { title: 'Zadzwoń', text: 'Opisz, czego potrzebujesz – wymiany opon, wyważenia czy porady przy zakupie.' },
+  {
+    title: 'Przyjedź do warsztatu',
+    text: 'Warsztat jest w Kaliskach Kościerskich. Przycisk „Wyznacz trasę” uruchomi nawigację.',
+  },
+  { title: 'Odbierz auto', text: 'Koła zostają wymienione i wyważone, a Ty wracasz na drogę.' },
+];
+---
+
+<ServicePage
+  title="Wulkanizacja Kościerzyna – wymiana opon | MRS Serwis"
+  description={`Wulkanizacja i wymiana opon na ${tires} koło Kościerzyny, w Kaliskach Kościerskich. Wyważanie kół, fachowe doradztwo, uczciwe ceny. Zadzwoń: 727 470 300.`}
+  path={service.href}
+  name="Wulkanizacja"
+  serviceType="Wymiana i serwis opon"
+  icon="tire"
+  h1="Wulkanizacja i wymiana opon – Kościerzyna i okolice"
+  lead={`Zmieniamy opony na ${tires} i wyważamy koła w Kaliskach Kościerskich, kilka kilometrów od Kościerzyny. Szybko, bez czekania w długich kolejkach i w uczciwej cenie.`}
+  points={['Wymiana i wyważanie kół', 'Fachowe doradztwo', 'Uczciwe ceny']}
+>
+  <Section
+    id="zakres"
+    eyebrow="Zakres usługi"
+    title="Co robimy w naszej wulkanizacji"
+    intro="Wulkanizacja w Kaliskach Kościerskich to wygodna alternatywa dla warsztatów w samej Kościerzynie – dojedziesz kilka kilometrów i wrócisz na drogę na właściwych oponach."
+  >
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {
+        included.map((item) => (
+          <li class="flex items-start gap-3 rounded-2xl border border-line bg-ink-2 p-5">
+            <Icon name="check" size={22} class="mt-0.5 shrink-0 text-brand" />
+            <span class="font-semibold">{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section
+    id="jak-umowic"
+    eyebrow="Jak to wygląda"
+    title="Jak umówić wymianę opon"
+    intro="Najprościej zadzwonić. Podaj markę i rocznik auta oraz rodzaj usługi, a ustalimy, kiedy możesz przyjechać."
+  >
+    <ol class="grid gap-5 md:grid-cols-3">
+      {
+        steps.map((step, index) => (
+          <li class="rounded-2xl border border-line bg-ink-2 p-6">
+            <span class="text-3xl font-extrabold text-brand">{index + 1}</span>
+            <h3 class="mt-2 text-lg font-bold">{step.title}</h3>
+            <p class="mt-2 text-cream/80">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+</ServicePage>

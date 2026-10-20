@@ -1,0 +1,203 @@
+---
+import ServicePage from '../layouts/ServicePage.astro';
+import Section from '../components/ui/Section.astro';
+import Faq from '../components/sections/Faq.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+import Icon from '../components/icons/Icon.astro';
+import { SERVICES } from '../config/services';
+import { SITE } from '../config/site';
+import type { FaqItem } from '../config/faq';
+
+const service = SERVICES[2];
+const phones = SITE.phones.map((phone) => phone.display).join(' lub ');
+
+const included = [
+  {
+    title: 'Diagnostyka komputerowa',
+    text: 'Odczyt błędów i szukanie ich prawdziwej przyczyny, gdy świeci się kontrolka albo auto zachowuje się inaczej.',
+  },
+  {
+    title: 'Naprawy mechaniczne',
+    text: 'Od silnika i rozrządu, przez sprzęgło i hamulce, po zawieszenie i układ wydechowy.',
+  },
+  {
+    title: 'Serwis okresowy',
+    text: 'Oleje, filtry, płyny i bieżące przeglądy, żeby auto było sprawne przez cały rok.',
+  },
+];
+
+const clients = [
+  { title: 'Klienci indywidualni', text: 'Naprawiamy i serwisujemy samochody prywatne, od drobnych usterek po większe naprawy.' },
+  { title: 'Firmy i floty', text: 'Obsługujemy także całe floty samochodowe. Zadzwoń, a ustalimy szczegóły współpracy.' },
+];
+
+/** Typowe objawy: co widzi lub słyszy kierowca i co może być przyczyną (ogólna wiedza motoryzacyjna, nie diagnoza). */
+const problems = [
+  {
+    symptom: 'Świeci się kontrolka silnika lub inna kontrolka',
+    causes:
+      'Sterownik zapisał błąd. Odczyt komputerem pokazuje jego kod, ale to dopiero początek: kod wskazuje obszar usterki, a nie gotową przyczynę.',
+  },
+  {
+    symptom: 'Stukanie lub pukanie z przodu albo z tyłu auta',
+    causes:
+      'Często zużyte elementy zawieszenia, np. wahacze, końcówki drążków, łączniki stabilizatora, poduszki lub amortyzatory. Najlepiej sprawdzić na podnośniku.',
+  },
+  {
+    symptom: 'Auto ściąga na bok albo drży kierownica',
+    causes: 'Może to być zużyte zawieszenie, kłopot z geometrią, niewyważone koło lub uszkodzona opona.',
+  },
+  {
+    symptom: 'Silnik nierówno pracuje, szarpie albo trudno go odpalić',
+    causes:
+      'Wiele możliwych przyczyn, m.in. układ zapłonowy, czujniki, zasilanie paliwem lub akumulator. Tu szczególnie pomaga diagnostyka komputerowa.',
+  },
+  {
+    symptom: 'Piski lub gwizdy z komory silnika',
+    causes: 'Często zużyty pasek osprzętu, napinacz lub rolki. Nie warto zwlekać, bo pasek może w końcu puścić.',
+  },
+  {
+    symptom: 'Hamulce piszczą, pedał drży lub hamowanie jest słabsze',
+    causes: 'Zwykle zużyte klocki lub tarcze, a czasem problem z płynem hamulcowym albo zaciskami. To układ bezpieczeństwa, więc sprawdź go od razu.',
+  },
+  {
+    symptom: 'Sprzęgło ślizga się lub trudno wbić bieg',
+    causes: 'Typowy objaw zużytego sprzęgła. Może też chodzić o układ sterowania sprzęgłem, np. pompę lub cięgno.',
+  },
+  {
+    symptom: 'Wyższe spalanie lub spadek mocy',
+    causes: 'Często winne są czujniki, układ dolotowy lub wydechowy albo zużyte części eksploatacyjne.',
+  },
+  {
+    symptom: 'Hałas lub dym z układu wydechowego',
+    causes: 'Nieszczelny układ wydechowy lub problem ze spalaniem. Niecodzienny kolor dymu to sygnał, żeby nie zwlekać.',
+  },
+];
+
+const stopSigns = [
+  'czerwona kontrolka ciśnienia oleju',
+  'przegrzewający się silnik',
+  'pogorszone działanie hamulców albo kierownicy',
+];
+
+const faq: FaqItem[] = [
+  {
+    question: 'Co oznacza świecąca kontrolka silnika?',
+    answer:
+      'Że sterownik zapisał błąd w działaniu któregoś z układów. Diagnostyka komputerowa odczytuje kod błędu, a mechanik na jego podstawie szuka rzeczywistej przyczyny.',
+  },
+  {
+    question: 'Czy sam odczyt błędów komputerem wystarczy, żeby naprawić auto?',
+    answer:
+      'Nie zawsze. Odczyt wskazuje obszar usterki, ale przyczynę trzeba potwierdzić, zanim wymieni się część. Dlatego diagnostykę komputerową łączy się ze sprawdzeniem auta.',
+  },
+  {
+    question: 'Co może stukać w samochodzie podczas jazdy?',
+    answer:
+      'Najczęściej zawieszenie: wahacze, końcówki drążków, łączniki stabilizatora, amortyzatory lub poduszki. Stukanie bywa też związane z układem wydechowym albo napędowym, więc warto sprawdzić auto w warsztacie.',
+  },
+  {
+    question: 'Co przygotować przed wizytą w warsztacie?',
+    answer:
+      'Wystarczy marka, model i rocznik auta oraz opis objawów: kiedy się pojawiają, np. na zimnym silniku, na nierównościach albo po wciśnięciu hamulca. W zapytaniu możesz podać numer VIN z dowodu rejestracyjnego.',
+  },
+  {
+    question: 'Kiedy nie wolno jechać dalej z usterką?',
+    answer:
+      'Gdy świeci się czerwona kontrolka ciśnienia oleju, silnik się przegrzewa albo pogorszyło się działanie hamulców lub kierownicy. Zatrzymaj się w bezpiecznym miejscu i skontaktuj się z warsztatem.',
+  },
+  {
+    question: 'Czy obsługujecie firmy i floty samochodowe?',
+    answer: `Tak, obsługujemy zarówno klientów indywidualnych, jak i całe floty firmowe. Zadzwoń: ${phones}.`,
+  },
+  {
+    question: 'Gdzie znaleźć mechanika i diagnostykę komputerową koło Kościerzyny?',
+    answer: `${SITE.name} znajduje się w miejscowości ${SITE.address.locality} (${SITE.fullAddress}), kilka kilometrów od Kościerzyny. Zadzwoń: ${phones}.`,
+  },
+];
+---
+
+<ServicePage
+  title="Mechanik Kościerzyna – diagnostyka komputerowa | MRS Serwis"
+  description="Mechanik i diagnostyka komputerowa w Kaliskach Kościerskich, koło Kościerzyny. Świeci kontrolka? Coś stuka? Znajdziemy przyczynę. Zadzwoń: 727 470 300."
+  path={service.href}
+  name="Mechanika"
+  serviceType="Mechanika pojazdowa i diagnostyka komputerowa"
+  icon="wrench"
+  h1="Mechanik i diagnostyka komputerowa – Kościerzyna i okolice"
+  lead="Świeci się kontrolka, coś stuka albo auto zachowuje się inaczej niż zwykle? Wykonujemy bieżące naprawy i diagnostykę komputerową w Kaliskach Kościerskich, kilka kilometrów od Kościerzyny. Obsługujemy klientów indywidualnych i całe floty. Znajdziemy przyczynę."
+  points={['Diagnostyka komputerowa', 'Bieżące naprawy', 'Uczciwe ceny']}
+>
+  <FaqSchema slot="head" items={faq} />
+
+  <Section
+    id="zakres"
+    eyebrow="Zakres usługi"
+    title="Mechanika samochodowa w Kaliskach Kościerskich"
+    intro="Od diagnostyki komputerowej po naprawy i serwis okresowy. Szukamy przyczyny problemu, zamiast zgadywać."
+  >
+    <ul class="grid gap-5 md:grid-cols-3">
+      {
+        included.map((item) => (
+          <li class="rounded-2xl border border-line bg-ink-2 p-6">
+            <h3 class="text-lg font-extrabold">{item.title}</h3>
+            <p class="mt-3 text-cream/80">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      {
+        clients.map((client) => (
+          <div class="flex items-start gap-4 rounded-2xl border border-brand/60 bg-brand/10 p-6">
+            <Icon name="check" size={22} class="mt-1 shrink-0 text-brand" />
+            <div>
+              <h3 class="text-lg font-extrabold">{client.title}</h3>
+              <p class="mt-2 text-cream/90">{client.text}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section
+    id="objawy"
+    eyebrow="Objawy"
+    title="Najczęstsze problemy z samochodem"
+    intro="Rozpoznajesz któryś z objawów? Poniżej typowe przyczyny. To podpowiedź, nie diagnoza, bo dokładną przyczynę ustala się w warsztacie."
+  >
+    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        problems.map((problem) => (
+          <li class="rounded-2xl border border-line bg-ink-2 p-6">
+            <h3 class="text-lg font-extrabold">{problem.symptom}</h3>
+            <p class="mt-3 text-cream/80">{problem.causes}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-8 rounded-2xl border border-brand/60 bg-brand/10 p-6">
+      <h3 class="text-lg font-extrabold">Kiedy nie jechać dalej?</h3>
+      <p class="mt-2 text-cream/90">Zatrzymaj się w bezpiecznym miejscu i skontaktuj się z warsztatem, jeśli zauważysz:</p>
+      <ul class="mt-3 space-y-2">
+        {
+          stopSigns.map((sign) => (
+            <li class="flex items-start gap-3">
+              <Icon name="check" size={20} class="mt-0.5 shrink-0 text-brand" />
+              {sign}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </Section>
+
+  <Faq
+    items={faq}
+    title="Mechanik i diagnostyka – pytania i odpowiedzi"
+    intro="Krótkie odpowiedzi na pytania, które kierowcy zadają najczęściej."
+  />
+</ServicePage>

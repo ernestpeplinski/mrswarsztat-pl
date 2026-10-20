@@ -1,0 +1,25 @@
+---
+import { SEASONS, getSeason, type SeasonField } from '../../config/season';
+
+/**
+ * Fragment tekstu zależny od pory roku, np. „opony na <SeasonText field="tires" />”.
+ * Przy buildzie wstawia wartość na dziś (dobre dla SEO i bez JS), a skrypt poniżej
+ * poprawia ją według daty odwiedzającego.
+ */
+interface Props {
+  field: SeasonField;
+}
+
+const { field } = Astro.props;
+---
+
+<span data-season-field={field}>{SEASONS[getSeason()][field]}</span>
+
+<script>
+  import { SEASONS, getSeason, type SeasonField } from '../../config/season';
+
+  const season = SEASONS[getSeason()];
+  document.querySelectorAll<HTMLElement>('[data-season-field]').forEach((element) => {
+    element.textContent = season[element.dataset.seasonField as SeasonField];
+  });
+</script>

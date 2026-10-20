@@ -1,11 +1,12 @@
 ---
 import Icon from '../icons/Icon.astro';
+import SeasonText from '../ui/SeasonText.astro';
 import type { Service } from '../../config/services';
 import { url } from '../../utils/url';
 
 type Props = Service;
 
-const { href, title, description, icon, badge } = Astro.props;
+const { href, title, description, icon, badge, seasonalBadge } = Astro.props;
 ---
 
 <!--
@@ -20,9 +21,9 @@ const { href, title, description, icon, badge } = Astro.props;
       <Icon name={icon} size={30} />
     </span>
     {
-      badge && (
+      (badge || seasonalBadge) && (
         <span class="rounded-full bg-brand px-3 py-1 text-xs font-bold tracking-wide text-white uppercase">
-          {badge}
+          {seasonalBadge ? <SeasonText field="badge" /> : badge}
         </span>
       )
     }
