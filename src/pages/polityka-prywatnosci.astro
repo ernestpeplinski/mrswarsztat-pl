@@ -1,0 +1,129 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config/site';
+
+const { company, address, phones, email } = SITE;
+const phoneList = phones.map((phone) => phone.display).join(', ');
+
+/** Data ostatniej zmiany treści polityki – aktualizuj przy każdej edycji. */
+const updated = '20 października 2026';
+
+const heading = 'mt-10 text-2xl font-extrabold';
+const list = 'mt-3 list-disc space-y-1.5 pl-6 text-cream/90';
+---
+
+<Layout
+  title="Polityka prywatności – MRS Serwis Samochodowy"
+  description="Informacja o przetwarzaniu danych osobowych z formularza kontaktowego i korzystaniu ze strony MRS Serwis Samochodowy."
+>
+  <article class="mx-auto max-w-3xl px-4 pt-28 pb-16 sm:px-6 md:pt-36 md:pb-24">
+    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">Polityka prywatności</h1>
+    <p class="mt-3 text-sm text-muted">Ostatnia aktualizacja: {updated}</p>
+
+    <p class="mt-6 text-lg text-cream/90">
+      Ta informacja wyjaśnia, jak przetwarzamy dane osobowe osób, które piszą do nas przez formularz na stronie lub
+      kontaktują się z warsztatem, zgodnie z rozporządzeniem RODO (UE 2016/679).
+    </p>
+
+    <h2 class={heading}>1. Administrator danych</h2>
+    <p class="mt-3 text-cream/90">
+      Administratorem danych osobowych jest <strong>{company.legalName}</strong>, {address.street}, {address.postalCode}
+      {address.locality}, NIP {company.nip}, REGON {company.regon}.
+    </p>
+    <p class="mt-3 text-cream/90">
+      Kontakt w sprawach danych osobowych: e-mail <a href={`mailto:${email}`} class="underline">{email}</a>, telefon
+      {phoneList}.
+    </p>
+
+    <h2 class={heading}>2. Jakie dane i w jakim celu przetwarzamy</h2>
+    <p class="mt-3 text-cream/90">
+      <strong>Formularz kontaktowy.</strong> Podajesz imię, numer telefonu, markę i model auta, rodzaj usługi oraz opis
+      problemu. Opcjonalnie możesz podać rocznik, numer VIN i adres e-mail. Wykorzystujemy je, aby odpowiedzieć na
+      zapytanie, skontaktować się z Tobą i przygotować wycenę. Przy wysyłce formularza dostawca usługi zapisuje także
+      dane techniczne: adres IP, datę i godzinę oraz adres strony, z której wysłano zapytanie.
+    </p>
+    <p class="mt-3 text-cream/90">Podstawa prawna:</p>
+    <ul class={list}>
+      <li>
+        art. 6 ust. 1 lit. b RODO, czyli podjęcie działań na Twoje żądanie przed zawarciem umowy (wycena, ustalenie
+        terminu),
+      </li>
+      <li>
+        art. 6 ust. 1 lit. f RODO, czyli nasz prawnie uzasadniony interes polegający na obsłudze zapytań i kontakcie z
+        klientami.
+      </li>
+    </ul>
+    <p class="mt-3 text-cream/90">
+      <strong>Kontakt telefoniczny i e-mailowy.</strong> Gdy dzwonisz lub piszesz do nas, przetwarzamy dane, które nam
+      przekazujesz (np. numer telefonu, treść wiadomości) w tym samym celu i na tych samych podstawach.
+    </p>
+    <p class="mt-3 text-cream/90">
+      Podanie danych jest dobrowolne, ale pola oznaczone w formularzu jako wymagane są potrzebne, żebyśmy mogli
+      odpowiedzieć na zapytanie. Nie podejmujemy decyzji w sposób zautomatyzowany i nie profilujemy użytkowników.
+    </p>
+
+    <h2 class={heading}>3. Odbiorcy danych</h2>
+    <p class="mt-3 text-cream/90">Dane mogą być przekazywane podmiotom, które pomagają nam obsługiwać stronę i zapytania:</p>
+    <ul class={list}>
+      <li>
+        <strong>Web3Forms</strong> (Web3Creative), czyli dostawca usługi odbierającej zgłoszenia z formularza i
+        przesyłającej je do nas e-mailem. Działa jako podmiot przetwarzający na podstawie umowy powierzenia. Korzysta
+        z podwykonawców: Amazon Web Services (infrastruktura, wysyłka e-maili), Cloudflare (zabezpieczenie i dostarczanie
+        usługi) oraz Hetzner Online (serwery w UE). W celu wykrywania spamu adres IP i adres e-mail osoby wysyłającej
+        formularz są przekazywane do usług antyspamowych CleanTalk i Akismet (Automattic).
+      </li>
+      <li>dostawca poczty elektronicznej, na której odbieramy wiadomości,</li>
+      <li>
+        <strong>GitHub, Inc.</strong>, czyli dostawca hostingu strony (GitHub Pages), który może przetwarzać dane
+        techniczne odwiedzających, np. adres IP.
+      </li>
+    </ul>
+    <p class="mt-3 text-cream/90">
+      Dane nie są sprzedawane ani wykorzystywane do celów marketingowych osób trzecich.
+    </p>
+
+    <!-- Źródło: DPA Web3Forms (wersja 1.0, 13.07.2026), pkt 10 i Aneks 3. Przy zmianie DPA lub dostawcy zaktualizuj pkt 3–5. -->
+    <h2 class={heading}>4. Przekazywanie danych poza Europejski Obszar Gospodarczy</h2>
+    <p class="mt-3 text-cream/90">
+      Dostawcy wymienieni w pkt 3 mogą przetwarzać dane poza Europejskim Obszarem Gospodarczym, m.in. w Stanach
+      Zjednoczonych (infrastruktura chmurowa, usługi antyspamowe) lub w Indiach (siedziba Web3Forms). Przekazanie
+      następuje na podstawie standardowych klauzul umownych zatwierdzonych przez Komisję Europejską (decyzja
+      wykonawcza (UE) 2021/914), włączonych do umowy powierzenia z Web3Forms. Kopię zabezpieczeń możesz uzyskać,
+      kontaktując się z nami.
+    </p>
+
+    <h2 class={heading}>5. Jak długo przechowujemy dane</h2>
+    <p class="mt-3 text-cream/90">
+      Dane z zapytania przechowujemy przez czas jego obsługi. Jeśli dojdzie do zawarcia umowy (np. zlecenia naprawy),
+      dane mogą być przechowywane dłużej: do czasu przedawnienia roszczeń albo przez okres wymagany przepisami (np.
+      podatkowymi). Zgłoszenia przechowywane technicznie przez Web3Forms są usuwane przez tego dostawcę najpóźniej po 30 dniach.
+    </p>
+
+    <h2 class={heading}>6. Twoje prawa</h2>
+    <p class="mt-3 text-cream/90">Masz prawo do:</p>
+    <ul class={list}>
+      <li>dostępu do swoich danych oraz otrzymania ich kopii,</li>
+      <li>sprostowania danych,</li>
+      <li>usunięcia danych lub ograniczenia ich przetwarzania,</li>
+      <li>przenoszenia danych, jeśli przetwarzamy je na podstawie umowy,</li>
+      <li>sprzeciwu wobec przetwarzania opartego na naszym prawnie uzasadnionym interesie.</li>
+    </ul>
+    <p class="mt-3 text-cream/90">
+      Aby skorzystać z tych praw, napisz na <a href={`mailto:${email}`} class="underline">{email}</a>. Masz też prawo
+      wnieść skargę do Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa).
+    </p>
+
+    <h2 class={heading}>7. Pliki cookies i odnośniki</h2>
+    <p class="mt-3 text-cream/90">
+      Strona nie używa własnych plików cookies ani narzędzi analitycznych i marketingowych. Zawiera odnośniki do
+      zewnętrznych serwisów (Mapy Google, Facebook, Instagram, TikTok). Po kliknięciu w nie obowiązują zasady
+      prywatności tych serwisów.
+    </p>
+
+    <h2 class={heading}>8. Zmiany</h2>
+    <p class="mt-3 text-cream/90">
+      Możemy aktualizować tę informację, np. po zmianie sposobu działania strony. Aktualna wersja jest zawsze
+      dostępna pod tym adresem, a data ostatniej zmiany widnieje u góry strony.
+    </p>
+  </article>
+</Layout>

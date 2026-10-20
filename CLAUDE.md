@@ -28,11 +28,11 @@ Layout (SEO head, slot JSON-LD), Header, StickyMobileBar, Footer, PrimaryButton,
 ## Do zrobienia (kolejność luźna)
 1. **PRZYPOMNIĆ UŻYTKOWNIKOWI:** ocena Google (4,9/5, 125 opinii) jest wpisana ręcznie w `config/reviews.ts` (`GOOGLE_RATING`) – zmienić na dynamiczną: pobieranie z Google Places API przy buildzie (klucz w sekretach GitHuba) + cykliczny rebuild (cron w workflow). Wymaga atrybucji Google. Własne 3 opinie zostają ręczne.
 2. Podmienić `SITE.google.writeReviewUrl` na oficjalny link z Profilu Firmy Google („Zbierz więcej opinii”).
-3. Wkleić klucz Web3Forms do `SITE.form.accessKey` i przetestować wysyłkę.
+3. ~~Klucz Web3Forms~~ – wpisany; przetestować wysyłkę na stronie testowej.
 4. Sekcja FAQ + `FaqSchema` (uwaga: Google nie pokazuje już rozwijanych FAQ dla zwykłych firm – FAQ głównie dla klientów).
 5. Galeria (prawdziwe zdjęcia warsztatu; na start placeholdery).
 6. ~~Podstrony usług~~ – gotowe: `/wulkanizacja-koscierzyna/`, `/klimatyzacja-koscierzyna/`, `/mechanik-koscierzyna/` (wspólny szablon `layouts/ServicePage.astro`, `ServiceSchema`, na klimatyzacji i mechanice też FAQ + `FaqSchema`). Ewentualnie osobna podstrona dla diagnostyki komputerowej.
-7. Polityka prywatności (formularz zbiera dane osobowe) + link przy zgodzie.
+7. ~~Polityka prywatności~~ – gotowa (`/polityka-prywatnosci/`, dane firmy w `SITE.company`, link w stopce i przy formularzu zamiast checkboxa zgody). Pkt 3–5 oparte na DPA Web3Forms v1.0 (13.07.2026, kopia: `dpaWeb3forms.txt`) i ustawieniu retencji w panelu Web3Forms = 30 dni (zmiana ustawienia = zmiana pkt 5) – po zmianie DPA/dostawcy zaktualizować. Do sprawdzenia: okres przechowywania u nas, czy cookies/analityka się nie zmieniły.
 8. Własna domena: usunąć `PUBLIC_NOINDEX`, `SITE_URL`, `BASE_PATH` z workflow, dodać `public/CNAME`, sitemap + robots.txt.
 9. Grafika OG 1200×630 (teraz kwadratowe logo), prawdziwe zdjęcie w Hero, logo z przezroczystym tłem (zamiast maski).
 10. Wizytówka Google ma w nazwie upchane frazy („…Mechanika, wulkanizacja i klimatyzacja.Kościerzyna…”) – zalecić użytkownikowi poprawę (ryzyko zawieszenia).

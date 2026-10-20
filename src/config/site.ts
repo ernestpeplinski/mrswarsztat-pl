@@ -35,6 +35,13 @@ export const SITE = {
   ],
   email: 'mrs-warsztat@wp.pl',
 
+  /** Dane rejestrowe firmy – administrator danych w polityce prywatności. */
+  company: {
+    legalName: 'MRS Serwis Samochodowy Roksana Grossmann',
+    nip: '5911727933',
+    regon: '542884440',
+  },
+
   hours: {
     label: 'Pon–Pt 8:00–17:00',
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -65,7 +72,7 @@ export const SITE = {
    */
   form: {
     endpoint: 'https://api.web3forms.com/submit',
-    accessKey: 'WSTAW_KLUCZ_WEB3FORMS',
+    accessKey: '689df5cf-be56-4884-a0bf-84ad3af291c9',
   },
 
   social: {
