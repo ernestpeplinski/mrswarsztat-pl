@@ -31,7 +31,7 @@ Layout (SEO head, slot JSON-LD), Header, StickyMobileBar, Footer, PrimaryButton,
 3. Wkleić klucz Web3Forms do `SITE.form.accessKey` i przetestować wysyłkę.
 4. Sekcja FAQ + `FaqSchema` (uwaga: Google nie pokazuje już rozwijanych FAQ dla zwykłych firm – FAQ głównie dla klientów).
 5. Galeria (prawdziwe zdjęcia warsztatu; na start placeholdery).
-6. Podstrony usług (silos SEO): `/wulkanizacja-koscierzyna/`, `/klimatyzacja-koscierzyna/`, `/mechanik-koscierzyna/` (diagnostyka komputerowa – ewentualnie osobna), z `ServiceSchema`. Linki w menu i kartach na razie dają 404.
+6. ~~Podstrony usług~~ – gotowe: `/wulkanizacja-koscierzyna/`, `/klimatyzacja-koscierzyna/`, `/mechanik-koscierzyna/` (wspólny szablon `layouts/ServicePage.astro`, `ServiceSchema`, na klimatyzacji i mechanice też FAQ + `FaqSchema`). Ewentualnie osobna podstrona dla diagnostyki komputerowej.
 7. Polityka prywatności (formularz zbiera dane osobowe) + link przy zgodzie.
 8. Własna domena: usunąć `PUBLIC_NOINDEX`, `SITE_URL`, `BASE_PATH` z workflow, dodać `public/CNAME`, sitemap + robots.txt.
 9. Grafika OG 1200×630 (teraz kwadratowe logo), prawdziwe zdjęcie w Hero, logo z przezroczystym tłem (zamiast maski).
