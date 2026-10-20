@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../../config/site';
+import { url } from '../../utils/url';
 
 const phone = SITE.phones[0];
 
@@ -101,17 +102,11 @@ const label = 'mb-1.5 block text-sm font-semibold';
     </div>
 
     <div class="sm:col-span-2">
-      <label class="flex items-start gap-3 text-sm text-cream/80">
-        <input
-          type="checkbox"
-          name="Zgoda na kontakt"
-          required
-          class="mt-1 h-4 w-4 shrink-0 accent-[#ea020a]"
-        />
-        <span>
-          Wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na to zapytanie.
-        </span>
-      </label>
+      <p class="text-sm text-cream/70">
+        Administratorem danych jest {SITE.company.legalName}. Dane z formularza wykorzystamy, aby odpowiedzieć na
+        zapytanie. Szczegóły i swoje prawa znajdziesz w
+        <a href={url('/polityka-prywatnosci/')} class="underline transition-colors hover:text-white">polityce prywatności</a>.
+      </p>
     </div>
   </div>
 
