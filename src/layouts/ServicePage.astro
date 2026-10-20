@@ -36,6 +36,8 @@ const others = SERVICES.filter((service) => service.href !== path);
 
 <Layout title={title} description={description}>
   <ServiceSchema slot="head" {name} {serviceType} {description} {path} />
+  <!-- Dodatkowe dane strukturalne strony (np. FaqSchema) przekazane przez slot="head". -->
+  <slot name="head" slot="head" />
 
   <section class="relative overflow-hidden border-b border-line">
     <div

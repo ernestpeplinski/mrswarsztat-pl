@@ -1,0 +1,160 @@
+---
+import ServicePage from '../layouts/ServicePage.astro';
+import Section from '../components/ui/Section.astro';
+import Faq from '../components/sections/Faq.astro';
+import FaqSchema from '../components/seo/FaqSchema.astro';
+import Icon from '../components/icons/Icon.astro';
+import { SERVICES } from '../config/services';
+import { SITE } from '../config/site';
+import type { FaqItem } from '../config/faq';
+
+const service = SERVICES[1];
+const phones = SITE.phones.map((phone) => phone.display).join(' lub ');
+
+const included = ['Serwis klimatyzacji', 'Odgrzybianie klimatyzacji', 'Naprawa klimatyzacji', 'Nietypowe usterki'];
+
+/** Najczęstsze objawy: co widzi kierowca i co może być przyczyną (ogólna wiedza motoryzacyjna, nie diagnoza). */
+const problems = [
+  {
+    symptom: 'Klimatyzacja słabo chłodzi',
+    causes:
+      'Najczęściej ubytek czynnika chłodniczego (nieszczelność układu) albo zabrudzony filtr kabinowy. Rzadziej zabrudzony skraplacz, usterka sprężarki lub wentylatora.',
+  },
+  {
+    symptom: 'Nieprzyjemny zapach z nawiewów',
+    causes:
+      'Zwykle grzyby, pleśń i bakterie rozwijające się na wilgotnym parowniku i w kanałach nawiewu. Pomaga odgrzybianie i wymiana filtra kabinowego.',
+  },
+  {
+    symptom: 'Raz chłodzi, raz nie',
+    causes:
+      'Może to być niski poziom czynnika, wilgoć w układzie albo usterka elektryczna lub sprzęgła sprężarki. Taki objaw warto sprawdzić, zanim zepsuje się droższy element.',
+  },
+  {
+    symptom: 'Dziwne dźwięki po włączeniu klimatyzacji',
+    causes: 'Hałas, buczenie lub stukanie często zapowiada problem ze sprężarką, jej sprzęgłem lub łożyskiem.',
+  },
+  {
+    symptom: 'Woda w kabinie lub zaparowane szyby',
+    causes: 'Zwykle zatkany odpływ skroplin albo wilgoć zalegająca w układzie nawiewu.',
+  },
+  {
+    symptom: 'Słaby nawiew',
+    causes: 'Najczęściej zapchany filtr kabinowy, rzadziej usterka dmuchawy lub zabrudzone kanały.',
+  },
+];
+
+const stopSigns = [
+  'głośny, metaliczny dźwięk po włączeniu klimatyzacji',
+  'dym lub zapach spalenizny',
+  'nagła utrata nawiewu',
+];
+
+const faq: FaqItem[] = [
+  {
+    question: 'Dlaczego klimatyzacja w samochodzie słabo chłodzi?',
+    answer:
+      'Najczęściej brakuje czynnika chłodniczego z powodu nieszczelności albo zapchany jest filtr kabinowy. Przyczyną może być też zabrudzony skraplacz, usterka sprężarki lub wentylatora. Dokładną przyczynę ustala się w warsztacie.',
+  },
+  {
+    question: 'Skąd bierze się nieprzyjemny zapach z klimatyzacji w aucie?',
+    answer:
+      'Zapach zwykle pochodzi z grzybów, pleśni i bakterii, które rozwijają się w wilgotnym układzie, głównie na parowniku. Pomaga odgrzybianie klimatyzacji i wymiana filtra kabinowego.',
+  },
+  {
+    question: 'Czy samo dolanie czynnika chłodniczego wystarczy?',
+    answer:
+      'Nie zawsze. Jeśli czynnika ubywa, układ zwykle jest nieszczelny, a samo uzupełnienie nie usuwa przyczyny. Najpierw trzeba znaleźć i naprawić nieszczelność.',
+  },
+  {
+    question: 'Jak często serwisować klimatyzację w samochodzie?',
+    answer:
+      'Zwykle zaleca się coroczną kontrolę klimatyzacji, najlepiej przed sezonem upałów. Szczegółowe terminy wymiany filtrów i innych elementów podaje instrukcja konkretnego auta.',
+  },
+  {
+    question: 'Kiedy trzeba wyłączyć klimatyzację i pojechać do warsztatu?',
+    answer:
+      'Przy głośnym metalicznym dźwięku, dymie, zapachu spalenizny albo nagłej utracie nawiewu. Dalsza jazda z włączoną klimatyzacją może pogłębić usterkę.',
+  },
+  {
+    question: 'Gdzie naprawić klimatyzację samochodową koło Kościerzyny?',
+    answer: `${SITE.name} znajduje się w miejscowości ${SITE.address.locality} (${SITE.fullAddress}), kilka kilometrów od Kościerzyny. Zadzwoń: ${phones}.`,
+  },
+];
+---
+
+<ServicePage
+  title="Serwis klimatyzacji samochodowej Kościerzyna | MRS Serwis"
+  description="Serwis, odgrzybianie i naprawa klimatyzacji samochodowej w Kaliskach Kościerskich, koło Kościerzyny. Słabo chłodzi? Brzydko pachnie? Zadzwoń: 727 470 300."
+  path={service.href}
+  name="Klimatyzacja"
+  serviceType="Serwis i naprawa klimatyzacji samochodowej"
+  icon="snowflake"
+  h1="Serwis i naprawa klimatyzacji samochodowej – Kościerzyna i okolice"
+  lead="Klimatyzacja słabo chłodzi, nieprzyjemnie pachnie albo działa z przerwami? Serwisujemy, odgrzybiamy i naprawiamy klimatyzację w Kaliskach Kościerskich, kilka kilometrów od Kościerzyny. Znamy się na nietypowych problemach, z którymi inni mają kłopot."
+  points={['Serwis i odgrzybianie', 'Naprawa klimatyzacji', 'Nietypowe usterki']}
+>
+  <FaqSchema slot="head" items={faq} />
+
+  <Section
+    id="zakres"
+    eyebrow="Zakres usługi"
+    title="Czym zajmujemy się w klimatyzacji"
+    intro="Od przeglądu przed sezonem, przez odgrzybianie, po naprawę usterek, także tych nietypowych."
+  >
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {
+        included.map((item) => (
+          <li class="flex items-start gap-3 rounded-2xl border border-line bg-ink-2 p-5">
+            <Icon name="check" size={22} class="mt-0.5 shrink-0 text-brand" />
+            <span class="font-semibold">{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section
+    id="problemy"
+    eyebrow="Objawy"
+    title="Najczęstsze problemy z klimatyzacją w samochodzie"
+    intro="Rozpoznajesz któryś z objawów? Poniżej najczęstsze przyczyny. To podpowiedź, nie diagnoza, bo dokładną przyczynę ustala się w warsztacie."
+  >
+    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {
+        problems.map((problem) => (
+          <li class="rounded-2xl border border-line bg-ink-2 p-6">
+            <h3 class="text-lg font-extrabold">{problem.symptom}</h3>
+            <p class="mt-3 text-cream/80">{problem.causes}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-8 rounded-2xl border border-brand/60 bg-brand/10 p-6">
+      <h3 class="text-lg font-extrabold">Kiedy wyłączyć klimatyzację?</h3>
+      <p class="mt-2 text-cream/90">Nie korzystaj z klimatyzacji i zgłoś się do warsztatu, jeśli słyszysz lub widzisz:</p>
+      <ul class="mt-3 space-y-2">
+        {
+          stopSigns.map((sign) => (
+            <li class="flex items-start gap-3">
+              <Icon name="check" size={20} class="mt-0.5 shrink-0 text-brand" />
+              {sign}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <p class="mt-6 max-w-3xl text-cream/80">
+      Samo dolanie czynnika rzadko rozwiązuje problem, bo jego ubytek zwykle oznacza nieszczelność. Dlatego warto
+      sprawdzać klimatyzację regularnie, najlepiej przed sezonem upałów.
+    </p>
+  </Section>
+
+  <Faq
+    items={faq}
+    title="Klimatyzacja samochodowa – pytania i odpowiedzi"
+    intro="Krótkie odpowiedzi na pytania, które kierowcy zadają najczęściej."
+  />
+</ServicePage>
