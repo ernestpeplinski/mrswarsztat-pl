@@ -8,6 +8,8 @@ import { SITE } from '../../config/site';
  * Pozostałe schematy (Service) odwołują się do niej przez @id.
  */
 const image = new URL(SITE.defaultOgImage, SITE.url).href;
+// Logo ma być kwadratowe (min. 112×112 px) – apple-touch-icon.png ma 180×180.
+const logo = new URL('/apple-touch-icon.png', SITE.url).href;
 
 const data = {
   '@context': 'https://schema.org',
@@ -16,7 +18,7 @@ const data = {
   name: SITE.name,
   url: `${SITE.url}/`,
   image,
-  logo: image,
+  logo,
   telephone: SITE.phones[0].e164,
   email: SITE.email,
   address: {

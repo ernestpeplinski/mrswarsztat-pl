@@ -23,7 +23,7 @@ export const SITE = {
   /** Obszar działania (JSON-LD areaServed). Warsztat jest w Kaliskach Kościerskich, obsługuje też okolice Kościerzyny. */
   areaServed: ['Kościerzyna', 'Kaliska Kościerskie'],
   locale: 'pl_PL',
-  /** Domyślny obraz OG – tymczasowo logo; docelowo grafika 1200×630. */
+  /** Domyślny obraz OG 1200×630 – generowany skryptem scripts/generate-og.mjs (logo + tekst). */
   defaultOgImage: '/img/og-default.png',
 
   address,

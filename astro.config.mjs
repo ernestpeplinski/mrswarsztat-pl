@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 // Lokalnie i na własnej domenie: domyślne wartości poniżej.
-// Wdrożenie testowe na GitHub Pages ustawia SITE_URL i BASE_PATH w .github/workflows/deploy.yml.
+// Wdrożenie testowe na github.io można odtworzyć, ustawiając SITE_URL, BASE_PATH i PUBLIC_NOINDEX=true w workflow.
 const site = process.env.SITE_URL ?? 'https://mrswarsztat.pl';
 const base = process.env.BASE_PATH ?? '/';
 

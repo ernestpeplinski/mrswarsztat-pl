@@ -1,7 +1,7 @@
 # MRS Serwis Samochodowy – nowa strona (Astro + Tailwind)
 
 Statyczna strona-wizytówka warsztatu (Kaliska Kościerskie, SEO pod Kościerzynę). Hosting: GitHub Pages.
-Docelowa domena: https://mrswarsztat.pl (na razie wdrożenie testowe na `*.github.io`, z `noindex`).
+Domena: https://mrswarsztat.pl (GitHub Pages, `public/CNAME`; workflow bez `SITE_URL`/`BASE_PATH`/`PUBLIC_NOINDEX`). Stara strona na tej domenie (inne repo) miała canonical na nieistniejące mrskoscierzyna.pl – po przepięciu domeny znika.
 Priorytet biznesowy: konwersja z telefonów na usługę wymiany opon na zimowe (przycisk „Zadzwoń” i „Wyznacz trasę”).
 
 ## Komendy
@@ -33,8 +33,8 @@ Layout (SEO head, slot JSON-LD), Header, StickyMobileBar, Footer, PrimaryButton,
 5. Galeria (prawdziwe zdjęcia warsztatu; na start placeholdery).
 6. ~~Podstrony usług~~ – gotowe: `/wulkanizacja-koscierzyna/`, `/klimatyzacja-koscierzyna/`, `/mechanik-koscierzyna/` (wspólny szablon `layouts/ServicePage.astro`, `ServiceSchema`, na klimatyzacji i mechanice też FAQ + `FaqSchema`). Ewentualnie osobna podstrona dla diagnostyki komputerowej.
 7. ~~Polityka prywatności~~ – gotowa (`/polityka-prywatnosci/`, dane firmy w `SITE.company`, link w stopce i przy formularzu zamiast checkboxa zgody). Pkt 3–5 oparte na DPA Web3Forms v1.0 (13.07.2026, kopia: `dpaWeb3forms.txt`) i ustawieniu retencji w panelu Web3Forms = 30 dni (zmiana ustawienia = zmiana pkt 5) – po zmianie DPA/dostawcy zaktualizować. Do sprawdzenia: okres przechowywania u nas, czy cookies/analityka się nie zmieniły.
-8. Własna domena: usunąć `PUBLIC_NOINDEX`, `SITE_URL`, `BASE_PATH` z workflow, dodać `public/CNAME`, sitemap + robots.txt.
-9. Grafika OG 1200×630 (teraz kwadratowe logo), prawdziwe zdjęcie w Hero, logo z przezroczystym tłem (zamiast maski).
+8. Własna domena: kod gotowy (CNAME, workflow bez noindex, sitemap, robots). Zostaje po stronie GitHub: zwolnić domenę w starym repo, ustawić ją w Settings → Pages tego repo, włączyć Enforce HTTPS; potem Google Search Console (dodać stronę, wysłać sitemapę).
+9. Grafika OG 1200×630 gotowa (`scripts/generate-og.mjs` → `public/img/og-default.png`; po zmianie logo/telefonu uruchomić ponownie). Zostaje: prawdziwe zdjęcie w Hero, logo z przezroczystym tłem (zamiast maski).
 10. Wizytówka Google ma w nazwie upchane frazy („…Mechanika, wulkanizacja i klimatyzacja.Kościerzyna…”) – zalecić użytkownikowi poprawę (ryzyko zawieszenia).
 
 ## Sezon na opony

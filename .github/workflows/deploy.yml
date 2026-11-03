@@ -20,10 +20,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SITE_URL: https://${{ github.repository_owner }}.github.io
-      BASE_PATH: /${{ github.event.repository.name }}
-      PUBLIC_NOINDEX: 'true'
+    # Własna domena (mrswarsztat.pl): domyślne wartości z astro.config.mjs (site=https://mrswarsztat.pl, base=/), bez noindex.
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

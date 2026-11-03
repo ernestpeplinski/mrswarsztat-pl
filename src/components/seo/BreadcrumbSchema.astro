@@ -1,0 +1,28 @@
+---
+import JsonLd from './JsonLd.astro';
+import { SITE } from '../../config/site';
+
+/**
+ * BreadcrumbList. Pozycje muszą odpowiadać widocznym okruszkom na stronie, np.:
+ *   <BreadcrumbSchema slot="head" items={[{ name: 'Strona główna', path: '/' }, { name: 'Wulkanizacja', path: '/wulkanizacja-koscierzyna/' }]} />
+ * Adresy budujemy od SITE.url (domena docelowa), tak samo jak w pozostałych schematach.
+ */
+interface Props {
+  items: { name: string; path: string }[];
+}
+
+const { items } = Astro.props;
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map(({ name, path }, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name,
+    item: new URL(path, SITE.url).href,
+  })),
+};
+---
+
+<JsonLd data={data} />

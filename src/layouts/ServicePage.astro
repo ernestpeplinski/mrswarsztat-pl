@@ -5,6 +5,7 @@ import PrimaryButton from '../components/ui/PrimaryButton.astro';
 import Section from '../components/ui/Section.astro';
 import ServiceCard from '../components/cards/ServiceCard.astro';
 import ServiceSchema from '../components/seo/ServiceSchema.astro';
+import BreadcrumbSchema from '../components/seo/BreadcrumbSchema.astro';
 import { SERVICES } from '../config/services';
 import { SITE } from '../config/site';
 import { url } from '../utils/url';
@@ -36,6 +37,13 @@ const others = SERVICES.filter((service) => service.href !== path);
 
 <Layout title={title} description={description}>
   <ServiceSchema slot="head" {name} {serviceType} {description} {path} />
+  <BreadcrumbSchema
+    slot="head"
+    items={[
+      { name: 'Strona główna', path: '/' },
+      { name, path },
+    ]}
+  />
   <!-- Dodatkowe dane strukturalne strony (np. FaqSchema) przekazane przez slot="head". -->
   <slot name="head" slot="head" />
 
